@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>Spartacus und das Nachleben</title>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+/* Layout: helle, freundliche Scroll-Erzählung im Stil klassischer Verbandsseiten (Himmel, Marineblau, Gold, große Serifen),
+   dazwischen marineblaue Bühnen für die dramatischen Momente: "Servi sunt / Immo", das horizontale Nachleben und "Ich bin Spartacus".
+   Bewusst nur ein heller Look. Blau und Gold bleiben auch bei Rot-Grün-Schwäche klar getrennt. */
+:root{
+  --bg:#FFFFFF; --bg2:#F2F5F9; --panel:#FFFFFF; --ink:#14294B; --muted:#5A6680; --line:#DCE2EB;
+  --navy:#1B365D; --navy-deep:#122746; --on-navy:#F4F6FA; --on-navy-muted:#B9C4D8;
+  --gold:#C29A42; --gold-ink:#8A6A22; --tint:#EAF1F9; --warm:#FBF3E3;
+  --display:"Cormorant Garamond","Cormorant",Garamond,"Times New Roman",serif;
+  --body:"Montserrat","Segoe UI",system-ui,-apple-system,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--ink);font:400 17px/1.7 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip}
+a{color:var(--navy);text-underline-offset:3px;text-decoration-color:var(--gold)}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,48px)}
+.eyebrow{font:600 12px/1.2 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--gold-ink)}
+.rule{display:block;width:64px;height:3px;background:var(--gold);border-radius:2px}
+
+/* Fortschritt und Kapitelleiste */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;background:var(--gold);transform-origin:0 50%;transform:scaleX(0);z-index:30}
+.chapbar{position:fixed;top:0;left:0;right:0;z-index:20;padding-top:env(safe-area-inset-top,0px);background:rgba(255,255,255,.86);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid var(--line);transform:translateY(-110%);transition:transform .5s var(--ease)}
+.chapbar.show{transform:none}
+.chapbar ul{list-style:none;margin:0;padding-block:10px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.chapbar a{display:flex;gap:8px;align-items:baseline;white-space:nowrap;text-decoration:none;color:var(--muted);font-weight:600;font-size:13px;padding:7px 14px;border-radius:999px;transition:background .3s,color .3s}
+.chapbar a b{font:700 17px/1 var(--display);color:var(--gold-ink)}
+.chapbar a.on{background:var(--navy);color:var(--on-navy)}
+.chapbar a.on b{color:var(--gold)}
+
+/* Opener */
+.hero{position:relative;min-height:96svh;display:grid;align-items:center;overflow:hidden;isolation:isolate}
+.hero-bg{position:absolute;inset:-14% 0 -10% 0;z-index:-4;background:linear-gradient(180deg,#A9C7E4 0%,#CFE0F0 34%,#EEF1EF 62%,#F8E7CC 82%,#F3D9B0 100%);background-size:cover;background-position:center}
+.hero-bg.has-img{background-image:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.55) 70%,#fff),var(--img)}
+.hero-sun{position:absolute;z-index:-3;right:12%;top:52%;width:38vmin;height:38vmin;border-radius:50%;background:radial-gradient(circle,rgba(255,240,205,.95),rgba(255,226,170,.35) 45%,transparent 70%)}
+#smoke{position:absolute;inset:0;z-index:-2;width:100%;height:100%;pointer-events:none}
+.hero-land{position:absolute;left:0;right:0;bottom:0;height:48%;z-index:-1;width:100%}
+.hero-inner{padding-block:110px 90px;display:grid;gap:22px;width:100%}
+.hero h1{font:600 clamp(76px,16vw,210px)/.86 var(--display);letter-spacing:-.01em;color:var(--navy);display:flex;overflow:hidden;padding-bottom:.08em;margin-left:-.03em}
+.hero h1 span{display:inline-block;will-change:transform}
+.hero .tagline{font:italic 500 clamp(30px,5vw,58px)/1.05 var(--display);color:var(--gold)}
+.lead{font-size:clamp(17px,1.7vw,20px);line-height:1.65;max-width:36ch;color:var(--ink);font-weight:500}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:6px}
+.btn{display:inline-flex;align-items:center;gap:12px;background:var(--navy);color:var(--on-navy);text-decoration:none;font:600 13px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;padding:18px 26px;border-radius:2px;transition:background .3s,transform .3s}
+.btn:hover{background:var(--navy-deep);transform:translateY(-2px)}
+.btn i{font-style:normal;transition:transform .3s}.btn:hover i{transform:translateX(4px)}
+.oscan{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);background:rgba(255,255,255,.6);border:1px solid rgba(27,54,93,.15);padding:8px 14px;border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.oscan b{font:700 16px/1 var(--display);letter-spacing:.16em;color:var(--navy)}
+
+/* Zahlen */
+.numbers{background:#fff;border-bottom:1px solid var(--line)}
+.numbers .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.num{padding:30px 22px 30px 0;display:grid;gap:6px;border-right:1px solid var(--line)}
+.num:last-child{border-right:0}
+.num strong{font:600 clamp(48px,6vw,76px)/1 var(--display);font-variant-numeric:lining-nums tabular-nums;color:var(--navy)}
+.num strong small{font:italic 500 .42em var(--display);color:var(--gold-ink);margin-left:6px}
+.num span{color:var(--muted);font-size:14px;max-width:28ch}
+@media (max-width:560px){.num{border-right:0;border-bottom:1px solid var(--line)}.num:last-child{border-bottom:0}}
+
+/* Kapitel */
+.chap{position:relative;padding-block:clamp(84px,12vw,150px);overflow:hidden;scroll-margin-top:56px}
+.chap.alt{background:var(--bg2)}
+.mark{position:absolute;top:30px;right:-1vw;font:600 clamp(220px,36vw,500px)/.8 var(--display);color:transparent;-webkit-text-stroke:1.5px rgba(27,54,93,.08);pointer-events:none;user-select:none;z-index:0}
+.chap>.wrap{position:relative;z-index:1}
+.chap-head{display:grid;gap:16px;margin-bottom:clamp(40px,6vw,72px);max-width:780px}
+.chap-head h2{font:600 clamp(46px,7.4vw,92px)/.95 var(--display);color:var(--navy)}
+.chap-head h2 em{font:italic 500 .58em/1.1 var(--display);color:var(--gold);display:block;margin-top:.12em}
+.chap-head p{color:var(--muted);font-size:clamp(16px,1.5vw,19px);max-width:56ch}
+.stack{display:grid;gap:clamp(36px,5vw,64px)}
+.two{display:grid;gap:clamp(28px,4vw,56px);align-items:start}
+@media (min-width:900px){.two{grid-template-columns:5fr 7fr}}
+.prose{display:grid;gap:14px;max-width:62ch;color:var(--muted)}
+.prose strong{color:var(--ink);font-weight:600}
+
+/* Bild-Platzhalter */
+.slot{position:relative;margin:0;border-radius:10px;overflow:hidden;background:var(--bg2)}
+.slot .frame{aspect-ratio:4/3;max-width:100%;display:grid;place-items:center;text-align:center;padding:16px;color:var(--muted);font-size:13px;line-height:1.4;border:1.5px dashed #C9D2DF;border-radius:10px;background:repeating-linear-gradient(135deg,transparent 0 12px,rgba(27,54,93,.035) 12px 13px)}
+.slot .frame svg{width:30px;height:30px;display:block;margin:0 auto 8px;fill:none;stroke:var(--gold-ink);stroke-width:1.5}
+.slot img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+
+/* Route */
+.route{position:relative;padding-left:36px}
+.route-list{list-style:none;margin:0;padding:0;display:grid;gap:30px}
+.route .rail,.route .fill{position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.route .fill{background:var(--gold);transform-origin:top}
+.route li{position:relative;display:grid;gap:2px}
+.route li::before{content:"";position:absolute;left:-34px;top:6px;width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid var(--gold)}
+.route li.end::before{background:var(--gold);box-shadow:0 0 0 7px rgba(194,154,66,.18)}
+.route .yr{font:600 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
+.route h3{font:600 34px/1.05 var(--display);color:var(--navy)}
+.route p{color:var(--muted);font-size:15.5px;max-width:42ch}
+
+/* Quellenkarten */
+.quellen{display:grid;gap:22px}
+.quelle{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 1px 2px rgba(20,41,75,.04),0 12px 32px -18px rgba(20,41,75,.18)}
+.q-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:16px 24px;border-bottom:1px solid var(--line)}
+.q-head h3{font:600 24px/1.2 var(--display);color:var(--navy);margin-top:3px}
+.la{font:italic 500 clamp(22px,2.4vw,28px)/1.45 var(--display);padding:24px;color:var(--ink)}
+.la mark{background:linear-gradient(var(--gold),var(--gold)) 0 100%/0% 2px no-repeat;color:inherit;transition:background-size 1.1s var(--ease) .2s}
+.la.lit mark,.no-anim .la mark{background-size:100% 2px}
+.de-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease)}
+.de-wrap>div{overflow:hidden}
+.quelle.open .de-wrap{grid-template-rows:1fr}
+.de{margin:0 24px 24px;padding:16px 18px;border-radius:10px;background:var(--tint);font-size:15.5px}
+.de .eyebrow{display:block;margin-bottom:6px;color:var(--navy)}
+.toggle{background:#fff;color:var(--navy);border:1.5px solid var(--navy);border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:background .3s,color .3s}
+.toggle:hover{background:var(--tint)}
+.toggle[aria-pressed="true"]{background:var(--navy);color:var(--on-navy)}
+details.vok{border-top:1px solid var(--line)}
+details.vok summary{cursor:pointer;padding:13px 24px;font-weight:600;font-size:14px;list-style:none;display:flex;justify-content:space-between;color:var(--muted)}
+details.vok summary::-webkit-details-marker{display:none}
+details.vok summary::after{content:"+";font:600 24px/1 var(--display);color:var(--gold-ink);transition:transform .3s}
+details.vok[open] summary::after{transform:rotate(45deg)}
+details.vok dl{margin:0;padding:0 24px 20px;display:grid;grid-template-columns:max-content 1fr;gap:6px 20px;font-size:14.5px}
+details.vok dt{font:italic 600 19px/1.3 var(--display);color:var(--navy)}
+details.vok dd{margin:0;color:var(--muted)}
+
+/* Aufgaben */
+.aufgabe{position:relative;padding:26px 28px 26px 32px;border-radius:14px;background:var(--tint);display:grid;gap:10px;max-width:800px}
+.aufgabe::before{content:"";position:absolute;left:0;top:20px;bottom:20px;width:4px;border-radius:2px;background:var(--navy)}
+.aufgabe .eyebrow{color:var(--navy)}
+.aufgabe ol{margin:0;padding-left:20px;display:grid;gap:8px}
+
+/* Bühnen in Marineblau */
+.stage{position:relative;background:var(--navy);color:var(--on-navy);isolation:isolate}
+.stage::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 60% 70% at 85% 20%,rgba(194,154,66,.16),transparent 60%),radial-gradient(ellipse 50% 60% at 10% 90%,rgba(120,160,220,.16),transparent 60%)}
+.stage.has-img::before{background:linear-gradient(rgba(27,54,93,.86),rgba(27,54,93,.9)),var(--img) center/cover}
+.stage .eyebrow{color:var(--gold)}
+
+/* Servi sunt / Immo */
+/* Scroll-Bühnen: der Abschnitt ist hoch, der Inhalt klebt (sticky) und wechselt in Stufen, jede Stufe mit eigener Übergangszeit */
+.scrolly{height:240vh;height:240svh}
+.scrolly.short{height:200vh;height:200svh}
+.sticky{position:sticky;top:0;height:100vh;height:100svh;display:grid;align-content:center;overflow:hidden}
+.kinetic{display:grid;gap:clamp(8px,1.6vw,18px);padding-block:40px}
+.kline{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 .4em;font:600 clamp(44px,8.6vw,124px)/1.02 var(--display)}
+.kline .old{position:relative;color:var(--on-navy);transition:color .8s var(--ease) .1s}
+.kline .old::after{content:"";position:absolute;left:-2%;right:-2%;top:56%;height:.06em;background:var(--gold);transform-origin:left;transform:scaleX(1);transition:transform .7s var(--ease)}
+.kline .new{display:inline-block;font-style:italic;font-weight:500;color:var(--gold);transition:opacity .7s var(--ease) .45s,transform .7s var(--ease) .45s}
+.kinetic .src{color:var(--on-navy-muted);font-size:14px;margin-top:14px;max-width:60ch;transition:opacity .8s var(--ease)}
+.steps .kline:not(.done) .old::after{transform:scaleX(0)}
+.steps .kline:not(.done) .new{opacity:0;transform:translateX(-28px)}
+.steps .kline.done .old{color:rgba(185,196,216,.5)}
+.steps .kinetic:not(.all) .src{opacity:0}
+.kinetic .hint-scroll{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--on-navy-muted);transition:opacity .5s}
+.kinetic.all .hint-scroll,.no-steps .hint-scroll{opacity:0}
+
+.versus{display:grid;gap:20px}
+@media (min-width:900px){.versus{grid-template-columns:1fr auto 1fr;align-items:stretch}}
+.vs-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px;display:grid;gap:12px;align-content:start;min-width:0;box-shadow:0 12px 32px -20px rgba(20,41,75,.2)}
+.vs-card .who{font:600 40px/1 var(--display);color:var(--navy)}
+.vs-card .when{color:var(--muted);font-size:13px}
+.vs-card .la{padding:0;font-size:24px}
+.vs-card .tr{font-size:15px;color:var(--muted)}
+.vs-mid{display:grid;place-items:center;font:italic 600 36px/1 var(--display);color:var(--gold)}
+.objects{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.obj{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:12px;align-content:start}
+.obj h3{font:600 34px/1.05 var(--display);color:var(--navy)}
+.obj .la{padding:0;font-size:22px}
+.obj .tr{font-size:15px;color:var(--muted)}
+
+/* Nachleben, horizontal */
+.hsec .intro{padding-block:clamp(84px,10vw,120px) 28px}
+.hsec .chap-head h2{color:#fff}
+.hsec .chap-head p{color:var(--on-navy-muted)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.filters button{padding:9px 16px;border-radius:999px;border:1px solid rgba(244,246,250,.35);background:transparent;color:var(--on-navy);cursor:pointer;font-size:13px;font-weight:600;transition:background .3s,color .3s,border-color .3s}
+.filters button[aria-pressed="true"]{background:var(--gold);color:var(--navy-deep);border-color:var(--gold)}
+.legend{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:18px;font-size:13px;color:var(--on-navy-muted)}
+.legend span{display:flex;gap:8px;align-items:center}
+.hviewport{padding-block:20px clamp(70px,9vw,110px)}
+.htrack{display:flex;gap:22px;padding-inline:clamp(16px,4vw,48px);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:rgba(244,246,250,.3) transparent;padding-bottom:14px}
+.has-gsap .hsec.pinnable .htrack{overflow:visible;scroll-snap-type:none;width:max-content}
+.hcard{flex:0 0 min(82vw,380px);scroll-snap-align:start;background:#fff;color:var(--ink);border-radius:14px;padding:22px;display:grid;gap:12px;align-content:start;min-width:0;box-shadow:0 24px 50px -30px rgba(0,0,0,.5)}
+.hcard[hidden]{display:none!important}
+.hcard .y{font:600 54px/.9 var(--display);color:var(--gold-ink);font-variant-numeric:lining-nums}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font:600 10.5px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;padding:5px 8px;border-radius:3px;border:1px solid var(--line);color:var(--muted)}
+.tag.free{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tag.link{border-style:dashed}
+.legend .tag{border-color:rgba(244,246,250,.4);color:var(--on-navy)}
+.legend .tag.free{background:#fff;color:var(--navy);border-color:#fff}
+.hcard h3{font:600 25px/1.15 var(--display);color:var(--navy)}
+.hcard p{color:var(--muted);font-size:14.5px;line-height:1.65}
+.hcard blockquote{margin:0;font:italic 500 21px/1.4 var(--display);color:var(--ink);border-left:2px solid var(--gold);padding-left:12px}
+.hcard .slot .frame,.hcard .slot img{aspect-ratio:16/10}
+.hcard .read{display:inline-flex;gap:8px;align-items:center;font-weight:600;font-size:14px;color:var(--navy);text-decoration:none;border-bottom:2px solid var(--gold);width:fit-content;padding-bottom:2px}
+.hend{flex:0 0 min(70vw,300px);display:grid;align-content:center;gap:10px;color:var(--on-navy-muted)}
+.hend strong{font:italic 600 40px/1 var(--display);color:var(--gold)}
+
+/* Film gegen Quellen */
+.flipgrid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.flip{perspective:1200px;background:none;border:0;padding:0;text-align:left;color:inherit;cursor:pointer;min-height:250px;display:grid}
+.flip .in{position:relative;display:grid;transform-style:preserve-3d;transition:transform .8s var(--ease)}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;padding:24px;display:grid;gap:10px;align-content:start}
+.flip .front{background:#fff;border:1px solid var(--line);box-shadow:0 12px 30px -20px rgba(20,41,75,.25)}
+.flip .back{background:var(--navy);color:var(--on-navy);transform:rotateY(180deg)}
+.flip .k{font:600 32px/1 var(--display);color:var(--navy)}
+.flip .back .k{color:#fff}
+.flip .lbl{font:600 10.5px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.flip .back .lbl{color:var(--gold)}
+.flip .hint{margin-top:auto;font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center;font-weight:600}
+.flip .back .hint{color:var(--on-navy-muted)}
+.flip .hint::before{content:"\21BB";color:var(--gold);font-size:16px}
+.flipbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+
+/* Heute */
+.echo{display:grid;padding-block:40px}
+.echo p{font:600 clamp(46px,9.6vw,140px)/.98 var(--display);color:#fff;white-space:nowrap;transition:opacity .8s var(--ease),transform .9s var(--ease)}
+.steps .echo p:nth-child(n+2):not(.on){opacity:0}
+.steps .echo p:nth-child(even):not(.on){transform:translateX(-80px)}
+.steps .echo p:nth-child(odd):not(.on){transform:translateX(80px)}
+.echo p em{font-style:italic;color:var(--gold)}
+.echo p:nth-child(n+2){color:transparent;-webkit-text-stroke:1px rgba(194,154,66,.7)}
+.facts{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.fact{border-top:2px solid var(--gold);padding-top:14px;display:grid;gap:4px}
+.fact strong{font:600 clamp(52px,6vw,72px)/1 var(--display);color:var(--navy);font-variant-numeric:lining-nums tabular-nums}
+.fact span{color:var(--muted);font-size:14px}
+
+/* Quiz */
+.quiz{display:grid;gap:18px;max-width:820px}
+.q{border:1px solid var(--line);background:#fff;border-radius:14px;padding:22px 24px;margin:0;display:grid;gap:8px}
+.q legend{font-weight:600;padding:0;float:left;width:100%;margin-bottom:8px;font-size:16px}
+.q legend b{font:600 24px/1 var(--display);color:var(--gold-ink);margin-right:10px}
+.q label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;padding:10px 12px;border-radius:8px;border:1px solid transparent;transition:background .3s,border-color .3s}
+.q label:hover{background:var(--bg2)}
+.q input{margin-top:6px;accent-color:var(--navy)}
+.q label.right{background:var(--tint);border-color:var(--navy)}
+.q label.wrong{background:var(--warm);border-color:var(--gold)}
+.q .fb{font-size:14.5px;color:var(--muted);min-height:1.3em}
+.q .fb b{color:var(--ink)}
+.score{font:600 40px/1 var(--display);color:var(--navy)}
+.score span{color:var(--gold-ink)}
+
+footer{background:var(--navy-deep);color:var(--on-navy-muted);padding-block:60px 76px;font-size:14px}
+footer .cols{display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+footer h3{font:600 26px/1 var(--display);color:#fff;margin-bottom:12px}
+footer ul{margin:0;padding-left:18px;display:grid;gap:5px}
+footer a{color:var(--gold)}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .flip.on .in{transform:none}.flip.on .front{visibility:hidden}.flip .back{transform:none;visibility:hidden}.flip.on .back{visibility:visible}
+}
+</style>
+
+<div class="progress" aria-hidden="true"></div>
+<nav class="chapbar" aria-label="Kapitel">
+  <ul class="wrap">
+    <li><a href="#aufstand" data-ch="aufstand"><b>I</b>Aufstand</a></li>
+    <li><a href="#mensch" data-ch="mensch"><b>II</b>Werkzeug oder Mensch</a></li>
+    <li><a href="#nachleben" data-ch="nachleben"><b>III</b>Nachleben</a></li>
+    <li><a href="#kino" data-ch="kino"><b>IV</b>Kino</a></li>
+    <li><a href="#heute" data-ch="heute"><b>V</b>Heute</a></li>
+    <li><a href="#test" data-ch="test"><b>&#10003;</b>Selbsttest</a></li>
+  </ul>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-bg" data-slot="hero"></div>
+  <div class="hero-sun" aria-hidden="true"></div>
+  <canvas id="smoke" aria-hidden="true"></canvas>
+  <svg class="hero-land" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 400 L0 270 C160 250 280 226 400 210 C480 198 540 150 610 112 C650 92 676 88 700 96 C726 88 752 92 790 112 C870 154 940 200 1040 222 C1180 252 1300 266 1440 272 L1440 400 Z" fill="#9DB2C9" opacity=".75"/>
+    <path d="M0 400 L0 318 C220 300 420 286 640 290 C860 294 1120 304 1440 300 L1440 400 Z" fill="#7F97B2" opacity=".55"/>
+    <path d="M0 400 L0 352 C260 340 520 336 760 342 C1000 348 1220 356 1440 352 L1440 400 Z" fill="#FFFFFF"/>
+  </svg>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Latein · Lektion 16 · Rezeptionsgeschichte</span>
+    <h1 aria-label="Spartacus"><span>S</span><span>p</span><span>a</span><span>r</span><span>t</span><span>a</span><span>c</span><span>u</span><span>s</span></h1>
+    <p class="tagline">Gladiator. Rebell. Legende.</p>
+    <span class="rule" aria-hidden="true"></span>
+    <p class="lead">Ein Thraker aus der Gladiatorenschule von Capua, zwei Jahre Krieg gegen Rom und zweitausend Jahre Nachleben.</p>
+    <div class="hero-ctas">
+      <a class="btn" href="#aufstand">Zum Aufstand <i>&rarr;</i></a>
+      <span class="oscan"><b>SPARTAKS</b> Beischrift eines Freskos in Pompeji</span>
+    </div>
+  </div>
+</header>
+
+<section class="numbers" aria-label="Zahlen zum Aufstand">
+  <div class="wrap">
+    <div class="num"><strong><span data-count="73">73</span><small>v. Chr.</small></strong><span>Ausbruch aus der Gladiatorenschule in Capua</span></div>
+    <div class="num"><strong data-count="70">70</strong><span>Gladiatoren am Anfang, nach Plutarch etwas mehr</span></div>
+    <div class="num"><strong data-count="6000">6&#8239;000</strong><span>Gekreuzigte an der Via Appia nach der Niederlage</span></div>
+  </div>
+</section>
+
+<main>
+<!-- I -->
+<section class="chap" id="aufstand">
+  <div class="mark" aria-hidden="true">I</div>
+  <div class="wrap stack">
+    <div class="chap-head" data-reveal>
+      <span class="eyebrow">Kapitel I</span>
+      <h2>Der Aufstand<em>Bellum Spartacium</em></h2>
+      <span class="rule" aria-hidden="true"></span>
+      <p>Was wir über Spartacus wissen, stammt fast nur aus römischer Feder: von Plutarch, Appian und Florus. Keiner von ihnen hat ihn erlebt.</p>
+    </div>
+    <div class="two">
+      <div class="route">
+        <span class="rail" aria-hidden="true"></span><span class="fill" aria-hidden="true"></span>
+        <ol class="route-list" aria-label="Verlauf des Aufstands">
+          <li data-reveal><span class="yr">73 v. Chr.</span><h3>Capua</h3><p>Etwa 70 Gladiatoren brechen aus der Schule des Lentulus Batiatus aus.</p></li>
+          <li data-reveal><span class="yr">73 v. Chr.</span><h3>Vesuv</h3><p>Eingeschlossen, seilen sie sich an Weinranken ab und überrumpeln die Römer.</p></li>
+          <li data-reveal><span class="yr">72 v. Chr.</span><h3>Norditalien</h3><p>Siege über beide Konsuln und bei Mutina. Das Heer zählt Zehntausende.</p></li>
+          <li data-reveal><span class="yr">72/71 v. Chr.</span><h3>Bruttium</h3><p>Rückzug in den Süden, die Überfahrt nach Sizilien scheitert.</p></li>
+          <li class="end" data-reveal><span class="yr">71 v. Chr.</span><h3>Lukanien</h3><p>Crassus siegt. Spartacus fällt, sein Leichnam wird nie gefunden.</p></li>
+        </ol>
+      </div>
+      <div class="quellen">
+        <p class="prose" data-reveal>Florus schreibt im 2. Jahrhundert n. Chr. eine knappe Geschichte Roms. Sein Kapitel zum Spartacus-Krieg ist voller Pointen und verrät viel über den römischen Blick auf Sklaven und Gladiatoren.</p>
+
+        <article class="quelle" data-reveal>
+          <div class="q-head"><div><span class="eyebrow">Florus, Epitoma 2,8</span><h3>Ein Krieg ohne Namen</h3></div><button class="toggle" type="button" aria-pressed="false">Übersetzung</button></div>
+          <p class="la">Bellum Spartaco duce concitatum <mark>quo nomine appellem nescio</mark>; quippe cum servi militaverint, gladiatores imperaverint.</p>
+          <div class="de-wrap"><div><p class="de"><span class="eyebrow">Deutsch</span>Wie ich den Krieg nennen soll, der unter Führung des Spartacus entfacht wurde, weiß ich nicht. Denn Sklaven haben als Soldaten gedient, Gladiatoren haben befohlen.</p></div></div>
+          <details class="vok"><summary>Vokabelhilfe</summary><dl><dt>concitare</dt><dd>entfachen, aufwiegeln</dd><dt>appellare</dt><dd>nennen, bezeichnen</dd><dt>quippe cum</dt><dd>da ja, weil ja</dd><dt>militare</dt><dd>Kriegsdienst leisten</dd><dt>imperare</dt><dd>befehlen, kommandieren</dd></dl></details>
+        </article>
+
+        <article class="quelle" data-reveal>
+          <div class="q-head"><div><span class="eyebrow">Florus, Epitoma 2,8</span><h3>Ausbruch und Lebenslauf</h3></div><button class="toggle" type="button" aria-pressed="false">Übersetzung</button></div>
+          <p class="la">Spartacus, Crixus, Oenomaus effracto Lentuli ludo cum triginta aut amplius eiusdem fortunae viris erupere Capua. [&hellip;] Nec abnuit ille <mark>de stipendiario Thrace miles, de milite desertor, inde latro, deinde in honorem virium gladiator</mark>.</p>
+          <div class="de-wrap"><div><p class="de"><span class="eyebrow">Deutsch</span>Spartacus, Crixus und Oenomaus brachen die Gladiatorenschule des Lentulus auf und stürmten mit dreißig oder mehr Männern gleichen Schicksals aus Capua hinaus. [&hellip;] Und er lehnte das nicht ab, er, der vom tributpflichtigen Thraker zum Soldaten, vom Soldaten zum Deserteur, dann zum Räuber und schließlich wegen seiner Körperkraft zum Gladiator geworden war.</p></div></div>
+          <details class="vok"><summary>Vokabelhilfe</summary><dl><dt>effringere, effractum</dt><dd>aufbrechen</dd><dt>ludus</dt><dd>hier: Gladiatorenschule</dd><dt>erupere</dt><dd>= eruperunt (erumpere: hervorbrechen)</dd><dt>abnuere</dt><dd>ablehnen (gemeint: die Feldherrnabzeichen)</dd><dt>stipendiarius</dt><dd>tributpflichtig, unterworfen</dd><dt>latro</dt><dd>Räuber, Bandit</dd></dl></details>
+        </article>
+
+        <article class="quelle" data-reveal>
+          <div class="q-head"><div><span class="eyebrow">Florus, Epitoma 2,8</span><h3>Das Ende</h3></div><button class="toggle" type="button" aria-pressed="false">Übersetzung</button></div>
+          <p class="la">Tandem eruptione facta dignam viris obiere mortem, et, quod sub gladiatore duce oportuit, <mark>sine missione pugnatum est</mark>. Spartacus ipse in primo agmine fortissime dimicans <mark>quasi imperator</mark> occisus est.</p>
+          <div class="de-wrap"><div><p class="de"><span class="eyebrow">Deutsch</span>Schließlich wagten sie einen Ausfall und starben einen Tod, der Männern würdig war. Und wie es sich unter einem Gladiator als Anführer gehörte, wurde ohne Gnade gekämpft. Spartacus selbst fiel in vorderster Reihe, äußerst tapfer kämpfend, wie ein Feldherr.</p></div></div>
+          <details class="vok"><summary>Vokabelhilfe</summary><dl><dt>eruptio</dt><dd>Ausfall, Durchbruchsversuch</dd><dt>obiere</dt><dd>= obierunt (mortem obire: sterben)</dd><dt>missio</dt><dd>Begnadigung eines unterlegenen Gladiators</dd><dt>agmen</dt><dd>Heereszug, Schlachtreihe</dd><dt>dimicare</dt><dd>kämpfen</dd></dl></details>
+        </article>
+      </div>
+    </div>
+    <div class="aufgabe" data-reveal>
+      <span class="eyebrow">Aufgaben</span>
+      <ol>
+        <li>Florus weiß nicht, wie er diesen Krieg nennen soll. Erkläre, warum ein „Krieg“ gegen Sklaven für einen Römer ein Widerspruch ist.</li>
+        <li>Zeichne den Lebenslauf aus dem zweiten Text als Treppe. Geht es für Spartacus bergauf oder bergab, aus römischer Sicht und aus seiner eigenen?</li>
+        <li>Suche im dritten Text alle Wörter, die Respekt zeigen. Passt das zum ersten Text?</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- II -->
+<section class="chap alt" id="mensch" style="padding-bottom:0">
+  <div class="mark" aria-hidden="true">II</div>
+  <div class="wrap">
+    <div class="chap-head" data-reveal>
+      <span class="eyebrow">Kapitel II</span>
+      <h2>Werkzeug oder Mensch?<em>instrumentum vocale</em></h2>
+      <span class="rule" aria-hidden="true"></span>
+      <p>Rom war eine Sklavengesellschaft. Zwei römische Autoren, zwei völlig verschiedene Antworten auf die Frage, was ein Sklave ist.</p>
+    </div>
+  </div>
+</section>
+<section class="stage scrolly" id="kin-wrap" data-slot="kinetic-bg">
+  <div class="sticky"><div class="wrap">
+    <div class="kinetic" id="kinetic" aria-label="Seneca, Brief 47: Servi sunt. Immo homines. Servi sunt. Immo contubernales. Servi sunt. Immo humiles amici.">
+      <span class="eyebrow">Seneca, Epistulae morales 47,1</span>
+      <span class="hint-scroll" aria-hidden="true">Weiterscrollen &darr;</span>
+      <div class="kline"><span class="old">Servi sunt.</span><span class="new">Immo homines.</span></div>
+      <div class="kline"><span class="old">Servi sunt.</span><span class="new">Immo contubernales.</span></div>
+      <div class="kline"><span class="old">Servi sunt.</span><span class="new">Immo humiles amici.</span></div>
+      <p class="src">„Es sind Sklaven.“ Nein, Menschen. „Es sind Sklaven.“ Nein, Hausgenossen. „Es sind Sklaven.“ Nein, einfache Freunde.</p>
+    </div>
+  </div></div>
+</section>
+<section class="chap alt" style="padding-top:clamp(64px,9vw,110px)">
+  <div class="wrap stack">
+    <div class="versus">
+      <article class="vs-card" data-reveal="left">
+        <div><div class="who">Varro</div><div class="when">De re rustica 1,17 · 1. Jh. v. Chr. · Handbuch für Gutsbesitzer</div></div>
+        <p class="la">Instrumenti genus <mark>vocale</mark> et semivocale et mutum: vocale, in quo sunt servi, semivocale, in quo sunt boves, mutum, in quo sunt plaustra.</p>
+        <p class="tr">Es gibt eine sprechende, eine halbsprechende und eine stumme Art von Werkzeug: Zur sprechenden gehören die Sklaven, zur halbsprechenden die Rinder, zur stummen die Wagen.</p>
+      </article>
+      <div class="vs-mid" aria-hidden="true" data-reveal>vs.</div>
+      <article class="vs-card" data-reveal="right">
+        <div><div class="who">Seneca</div><div class="when">Epistulae morales 47,10 · 1. Jh. n. Chr. · Brief an Lucilius</div></div>
+        <p class="la">Vis tu cogitare istum, quem servum tuum vocas, <mark>ex isdem seminibus ortum</mark> eodem frui caelo, aeque spirare, aeque vivere, aeque mori!</p>
+        <p class="tr">Bedenke doch, dass der, den du deinen Sklaven nennst, aus demselben Samen entstanden ist, denselben Himmel genießt, ebenso atmet, ebenso lebt, ebenso stirbt!</p>
+      </article>
+    </div>
+
+    <div class="objects">
+      <article class="obj" data-reveal>
+        <span class="eyebrow">Objekt · Rom, 4. Jh. n. Chr.</span>
+        <h3>Das Halsband des Zoninus</h3>
+        <figure class="slot" data-slot="halsband"><div class="frame"><div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg>Bild folgt: Bronzehalsband mit Plakette</div></div></figure>
+        <p class="la">Fugi. Tene me. Cum revocaveris me d(omino) m(eo) Zonino, accipis solidum.</p>
+        <p class="tr">„Ich bin geflohen. Halte mich fest. Wenn du mich zu meinem Herrn Zoninus zurückbringst, bekommst du einen Solidus.“ Solche Halsbänder trugen wieder eingefangene Sklaven, auch noch im christlichen Rom. Museo Nazionale Romano.</p>
+      </article>
+      <article class="obj" data-reveal>
+        <span class="eyebrow">Fall · Rom, 61 n. Chr.</span>
+        <h3>400 für einen</h3>
+        <p>Der Stadtpräfekt Pedanius Secundus wird von einem seiner Sklaven ermordet. Nach altem Recht müssen alle Sklaven des Hauses sterben, rund 400 Menschen. Das Volk protestiert, im Senat gibt es Gegenstimmen. Der Jurist Cassius Longinus setzt sich durch: Nur die Angst halte die Sklaven in Schach. Nero lässt die Hinrichtung unter Militärschutz vollziehen.</p>
+        <p class="tr">Quelle: Tacitus, Annalen 14,42 bis 45</p>
+      </article>
+    </div>
+
+    <div class="aufgabe" data-reveal>
+      <span class="eyebrow">Aufgaben</span>
+      <ol>
+        <li>Vergleiche Varro und Seneca. Welche Wörter zeigen am deutlichsten, wie sie über Sklaven denken?</li>
+        <li>Seneca fordert nirgends, die Sklaverei abzuschaffen. Ist sein Brief trotzdem fortschrittlich? Begründe.</li>
+        <li>Lies das Halsband und den Fall des Pedanius. Welche der beiden Haltungen bestimmte den Alltag?</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- III -->
+<section class="hsec stage" id="nachleben">
+  <div class="wrap intro">
+    <div class="chap-head" data-reveal style="margin-bottom:0">
+      <span class="eyebrow">Kapitel III</span>
+      <h2>Ein Symbol wandert<em>von Pompeji bis Hollywood</em></h2>
+      <span class="rule" aria-hidden="true"></span>
+      <p>Seit dem 18. Jahrhundert wird Spartacus immer wieder neu erfunden: als Freiheitsheld, als Proletarier, als Filmstar. Jede Zeit sieht in ihm, was sie gerade braucht.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Nach Bereich filtern">
+      <button type="button" data-f="alle" aria-pressed="true">Alle</button>
+      <button type="button" data-f="kunst" aria-pressed="false">Kunst</button>
+      <button type="button" data-f="theater" aria-pressed="false">Theater</button>
+      <button type="button" data-f="literatur" aria-pressed="false">Literatur</button>
+      <button type="button" data-f="politik" aria-pressed="false">Politik</button>
+      <button type="button" data-f="musik" aria-pressed="false">Musik</button>
+      <button type="button" data-f="film" aria-pressed="false">Film</button>
+    </div>
+    <div class="legend"><span><i class="tag free">frei</i> gemeinfrei, darf gezeigt und gelesen werden</span><span><i class="tag link">Link</i> geschützt, nur Verweis</span></div>
+  </div>
+  <div class="hviewport"><div class="htrack" id="htrack"></div></div>
+</section>
+
+<!-- IV -->
+<section class="chap" id="kino">
+  <div class="mark" aria-hidden="true">IV</div>
+  <div class="wrap stack">
+    <div class="chap-head" data-reveal>
+      <span class="eyebrow">Kapitel IV</span>
+      <h2>Kino und Quellen<em>Hollywood, 1960</em></h2>
+      <span class="rule" aria-hidden="true"></span>
+      <p>Stanley Kubricks „Spartacus“ mit Kirk Douglas prägt bis heute das Bild des Gladiators. Tippe auf eine Karte: Vorne steht der Film, hinten stehen die antiken Quellen.</p>
+    </div>
+    <div class="flipbar" data-reveal>
+      <div class="tags"><span class="tag">vorne: Film</span><span class="tag free">hinten: Quellen</span></div>
+      <button class="toggle" type="button" id="flipall" aria-pressed="false">Alle aufdecken</button>
+    </div>
+    <div class="flipgrid" id="flipgrid"></div>
+    <div class="prose" data-reveal>
+      <p>Auch hinter der Kamera geht es um Freiheit: Das Drehbuch stammt von <strong>Dalton Trumbo</strong>, der in der McCarthy-Ära als angeblicher Kommunist auf der schwarzen Liste Hollywoods stand. Kirk Douglas setzte durch, dass er unter seinem echten Namen im Abspann genannt wurde. Das gilt als Anfang vom Ende dieser Liste.</p>
+      <p><a href="https://www.youtube.com/results?search_query=Spartacus+1960+I%27m+Spartacus+scene" target="_blank" rel="noopener">Die Szene „I'm Spartacus!“ auf YouTube ansehen &#8599;</a></p>
+    </div>
+    <div class="aufgabe" data-reveal>
+      <span class="eyebrow">Aufgaben</span>
+      <ol>
+        <li>Warum lässt der Film Spartacus am Kreuz sterben, obwohl die Quellen etwas anderes berichten? Überlege, welche Bilder das Publikum 1960 kannte.</li>
+        <li>Die Szene „I'm Spartacus!“ ist erfunden. Erkläre, was sie über Solidarität aussagt und warum sie gerade in einem Film eines verfolgten Autors steht.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- V -->
+<section class="chap alt" id="heute" style="padding-bottom:0">
+  <div class="mark" aria-hidden="true">V</div>
+  <div class="wrap">
+    <div class="chap-head" data-reveal>
+      <span class="eyebrow">Kapitel V</span>
+      <h2>Heute<em>Ego sum Spartacus</em></h2>
+      <span class="rule" aria-hidden="true"></span>
+      <p>Der Satz aus dem Film ist zur Formel geworden. Wer „Ich bin Spartacus“ sagt, stellt sich vor jemanden, der bestraft werden soll.</p>
+    </div>
+  </div>
+</section>
+<section class="stage scrolly short" id="echo-wrap" data-slot="echo-bg">
+  <div class="sticky"><div class="wrap">
+    <div class="echo" id="echo" aria-label="Ich bin Spartacus, viele Male wiederholt">
+      <p>Ich bin <em>Spartacus.</em></p>
+      <p aria-hidden="true">Ich bin Spartacus.</p>
+      <p aria-hidden="true">Ich bin Spartacus.</p>
+      <p aria-hidden="true">Ich bin Spartacus.</p>
+      <p aria-hidden="true">Ich bin Spartacus.</p>
+    </div>
+  </div></div>
+</section>
+<section class="chap alt" style="padding-top:clamp(64px,9vw,110px)">
+  <div class="wrap stack">
+    <div class="prose" data-reveal>
+      <p>2010 wurde in Großbritannien ein junger Mann wegen eines geschmacklosen Witzes auf Twitter verurteilt. Tausende wiederholten seinen Tweet unter <strong>#IAmSpartacus</strong>, um zu zeigen: Dann müsst ihr uns alle anklagen. Das Urteil wurde später aufgehoben.</p>
+      <p>Sklaverei ist dabei keine Sache der Antike. Nach Schätzungen der Internationalen Arbeitsorganisation (ILO) lebten 2021 weltweit rund 50 Millionen Menschen in moderner Sklaverei.</p>
+    </div>
+    <div class="facts">
+      <div class="fact" data-reveal><strong><span data-count="50">50</span> Mio.</strong><span>Menschen in moderner Sklaverei, 2021 (ILO, Walk Free, IOM)</span></div>
+      <div class="fact" data-reveal><strong><span data-count="28">28</span> Mio.</strong><span>davon in Zwangsarbeit, etwa in Landwirtschaft, Bau und Textilindustrie</span></div>
+      <div class="fact" data-reveal><strong><span data-count="22">22</span> Mio.</strong><span>davon in Zwangsehen</span></div>
+    </div>
+    <div class="aufgabe" data-reveal>
+      <span class="eyebrow">Aufgaben</span>
+      <ol>
+        <li>Seneca nennt Sklaven „humiles amici“. Wie würdest du die Menschen bezeichnen, die heute in Zwangsarbeit unsere Kleidung oder unseren Kakao herstellen?</li>
+        <li>Wähle eine Station aus Kapitel III und erkläre in drei Sätzen, wofür Spartacus dort steht.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- Test -->
+<section class="chap" id="test">
+  <div class="mark" aria-hidden="true">&#10003;</div>
+  <div class="wrap stack">
+    <div class="chap-head" data-reveal>
+      <span class="eyebrow">Zum Schluss</span>
+      <h2>Selbsttest<em>probatio</em></h2>
+      <span class="rule" aria-hidden="true"></span>
+      <p>Sechs Fragen. Die Auflösung erscheint, sobald du antwortest.</p>
+    </div>
+    <form class="quiz" id="quiz" onsubmit="return false"></form>
+    <p class="score" id="score" aria-live="polite"><span>0</span> von 6 richtig</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap cols">
+    <div><h3>Textgrundlage</h3><ul>
+      <li>Florus, Epitoma de Tito Livio 2,8 (Bellum Spartacium), gekürzt</li>
+      <li>Varro, De re rustica 1,17,1</li>
+      <li>Seneca, Epistulae morales 47,1 und 47,10</li>
+      <li>Tacitus, Annales 14,42 bis 45; Plutarch, Crassus 8 bis 11; Appian, Bürgerkriege 1,116 bis 120</li>
+      <li>Übersetzungen: eigene Arbeitsübersetzungen</li></ul></div>
+    <div><h3>Bildnachweise</h3><ul><li>Bilder werden ergänzt. Gezeigt werden nur gemeinfreie Werke, frei lizenzierte Fotos mit Nachweis oder lizenzierte Stockbilder.</li></ul></div>
+    <div><h3>Zahlen</h3><ul><li>ILO, Walk Free, IOM: Global Estimates of Modern Slavery (2022, Daten für 2021)</li></ul></div>
+  </div>
+</footer>
+
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+  var IMG='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg>';
+
+  /* ---------- Nachleben ---------- */
+  var items=[
+    {y:'um 70 v. Chr.',c:'kunst',f:1,t:'Fresko in Pompeji',d:'Ein Reiter im Kampf, darüber in oskischer Schrift der Name SPARTAKS. Vielleicht die einzige Darstellung aus seiner Lebenszeit.',img:'fresko'},
+    {y:'1760',c:'theater',f:1,t:'Saurin: Spartacus',d:'Bernard-Joseph Saurin bringt Spartacus als Tragödie auf die Pariser Bühne. Voltaire schreibt ihm 1769, der Aufstand sei vielleicht der einzige gerechte Krieg der Geschichte gewesen.',read:['Französischen Text bei Gallica suchen','https://gallica.bnf.fr/services/engine/search/sru?operation=searchRetrieve&query=%28gallica%20all%20%22Saurin%20Spartacus%22%29']},
+    {y:'1770',c:'theater',f:1,t:'Lessing: Spartacus',d:'Gotthold Ephraim Lessing beginnt um 1770 ein Drama über Spartacus. Es bleibt ein Fragment aus wenigen Szenen und Notizen, zu finden in seinen Werkausgaben.'},
+    {y:'1770er',c:'politik',f:1,t:'Ein schwarzer Spartacus',d:'Im Werk des Abbé Raynal wird ein schwarzer Spartacus prophezeit, der die Sklaven der Karibik befreien werde. Toussaint Louverture, Anführer der Revolution auf Haiti ab 1791, erhält später genau diesen Beinamen.'},
+    {y:'1787',c:'kunst',f:1,t:'Wedgwood-Medaillon',d:'Ein kniender Mann in Ketten, darüber „Am I not a man and a brother?“. Das Emblem der britischen Bewegung gegen den Sklavenhandel klingt wie Senecas „Immo homines“.',img:'wedgwood'},
+    {y:'um 1811',c:'theater',f:1,t:'Grillparzer: Spartakus',d:'Auch der junge Franz Grillparzer versucht sich am Stoff. Sein Drama bleibt Fragment und steht in seinen Sämtlichen Werken bei den dramatischen Fragmenten. Ein österreichischer Spartacus.'},
+    {y:'1830',c:'kunst',f:1,t:'Foyatier: Spartacus',d:'Marmorstatue mit verschränkten Armen und gesprengter Kette, aufgestellt im Pariser Tuileriengarten im Jahr der Julirevolution. Heute im Louvre.',img:'foyatier'},
+    {y:'1831',c:'theater',f:1,t:'Bird: The Gladiator',d:'Robert Montgomery Birds Stück wird in New York zum Triumph für den Schauspieler Edwin Forrest, der den Spartacus über tausendmal spielt. In den USA mit ihrer Sklaverei ein brisanter Stoff.',read:['Volltext im Internet Archive (Ausgabe 1919)','https://archive.org/details/cu31924022010973']},
+    {y:'1850',c:'kunst',f:1,t:'Vela: Spartaco',d:'Spartacus im Moment des Ausbruchs. Im Italien des Risorgimento wird er zum Symbol der Befreiung von Fremdherrschaft.',img:'vela'},
+    {y:'1861',c:'politik',f:1,t:'Karl Marx an Engels',q:'Spartacus entpuppt sich als der famoseste Kerl, den die ganze antike Geschichte aufzuweisen hat.',d:'Für Marx ist Spartacus ein Vertreter des antiken Proletariats. Damit beginnt seine Karriere als Held der Arbeiterbewegung.'},
+    {y:'1872',c:'kunst',f:1,t:'Gérôme: Pollice verso',d:'Ein Gladiator blickt zu den Vestalinnen, die mit dem Daumen das Todesurteil fällen. Das Gemälde inspirierte über hundert Jahre später den Film „Gladiator“.',img:'gerome'},
+    {y:'1874',c:'literatur',f:1,t:'Giovagnoli: Spartaco',d:'Historischer Roman mit einem Vorwort von Giuseppe Garibaldi, der in Spartacus einen Vorkämpfer der italienischen Freiheit sieht.'},
+    {y:'1916/18',c:'politik',f:1,t:'Spartakusbund',d:'Rosa Luxemburg und Karl Liebknecht nennen ihre Gruppe nach Spartacus. Der Spartakusaufstand in Berlin im Jänner 1919 wird blutig niedergeschlagen, beide werden ermordet.'},
+    {y:'1922',c:'theater',f:0,t:'Brecht: Trommeln in der Nacht',d:'Brechts frühes Stück spielt während des Spartakusaufstands und trug im Entwurf den Titel „Spartakus“.'},
+    {y:'1933',c:'literatur',f:1,t:'Gibbon: Spartacus',d:'Roman des schottischen Autors Lewis Grassic Gibbon, erzählt aus der Sicht der Sklaven. Gibbon starb 1935, das Buch ist daher gemeinfrei.'},
+    {y:'1935',c:'politik',f:0,t:'Spartak Moskau',d:'Der Sportverein trägt seit 1935 den Namen Spartak. Im Ostblock heißen große Sportfeste „Spartakiaden“.',links:[['Spartak Moskau auf Wikipedia','https://de.wikipedia.org/wiki/Spartak_Moskau']]},
+    {y:'1939',c:'literatur',f:0,t:'Koestler: Die Gladiatoren',d:'Roman über die Frage, ob eine Revolution ihre Ideale bewahren kann, geschrieben unter dem Eindruck von Stalins Schauprozessen.'},
+    {y:'1951',c:'literatur',f:0,t:'Howard Fast: Spartacus',d:'Fast schreibt den Roman nach einer Haftstrafe in der McCarthy-Ära. Kein Verlag will ihn drucken, er veröffentlicht ihn selbst. Er wird zur Vorlage für Kubricks Film.'},
+    {y:'1956',c:'musik',f:0,t:'Chatschaturjan: Spartacus',d:'Sowjetisches Ballett, Uraufführung in Leningrad. Das Adagio von Spartacus und Phrygia wurde später als Titelmusik einer britischen Fernsehserie berühmt.',links:[['Adagio anhören','https://www.youtube.com/results?search_query=Khachaturian+Spartacus+Adagio']]},
+    {y:'1960',c:'film',f:0,t:'Kubrick: Spartacus',d:'Monumentalfilm mit Kirk Douglas, vier Oscars. Mehr dazu in Kapitel IV.',links:[['Trailer ansehen','https://www.youtube.com/results?search_query=Spartacus+1960+trailer']]},
+    {y:'1975',c:'musik',f:0,t:'Triumvirat: Spartacus',d:'Konzeptalbum der deutschen Progressive-Rock-Band. Die Songs erzählen den Aufstand vom Ausbruch bis zum Ende.',links:[['Album anhören','https://www.youtube.com/results?search_query=Triumvirat+Spartacus+1975']]},
+    {y:'2000',c:'film',f:0,t:'Ridley Scott: Gladiator',d:'Kein Spartacus-Film, aber ohne ihn und ohne Gérôme kaum denkbar: der Gladiator, der sich gegen den Kaiser stellt.'},
+    {y:'2010',c:'film',f:0,t:'Spartacus (Serie)',d:'Vier Staffeln, sehr blutig und nicht jugendfrei. Ein Beispiel dafür, wie heute Antike inszeniert wird.'}
+  ];
+  var CAT={kunst:'Kunst',theater:'Theater',literatur:'Literatur',politik:'Politik',musik:'Musik',film:'Film'};
+  var track=document.getElementById('htrack');
+  track.innerHTML=items.map(function(it){
+    var h='<article class="hcard" data-c="'+it.c+'"><div class="y">'+esc(it.y)+'</div>';
+    h+='<div class="tags"><span class="tag">'+CAT[it.c]+'</span>'+(it.f?'<span class="tag free">frei</span>':'<span class="tag link">Link</span>')+'</div>';
+    if(it.img)h+='<figure class="slot" data-slot="'+it.img+'"><div class="frame"><div>'+IMG+'Bild folgt</div></div></figure>';
+    h+='<h3>'+esc(it.t)+'</h3>';
+    if(it.q)h+='<blockquote>„'+esc(it.q)+'“</blockquote>';
+    h+='<p>'+esc(it.d)+'</p>';
+    if(it.read)h+='<a class="read" href="'+it.read[1]+'" target="_blank" rel="noopener">'+esc(it.read[0])+' &#8599;</a>';
+    if(it.links)h+='<p>'+it.links.map(function(l){return '<a href="'+l[1]+'" target="_blank" rel="noopener">'+esc(l[0])+' &#8599;</a>'}).join(' · ')+'</p>';
+    return h+'</article>';
+  }).join('')+'<div class="hend"><strong>Und morgen?</strong><p>Wo begegnet dir Spartacus? Bring ein Beispiel mit in die nächste Stunde.</p></div>';
+
+  /* ---------- Film gegen Quellen ---------- */
+  var flips=[
+    ['Herkunft','Als Sklave geboren, schuftet in einem Bergwerk in Libyen.','Thraker, vermutlich früher Soldat im römischen Hilfsheer, dann Deserteur (Florus).'],
+    ['Frau','Varinia: eine große Liebesgeschichte mit gemeinsamem Sohn.','Plutarch erwähnt eine Thrakerin, eine Seherin, die mit ihm zieht. Ihr Name ist unbekannt.'],
+    ['Ziel','Mit Schiffen in die Freiheit, heim zu den Familien.','Widersprüchlich: über die Alpen nach Hause (Plutarch), nach Sizilien, sogar ein Marsch auf Rom wird erwogen (Florus, Appian).'],
+    ['„I\'m Spartacus!“','Alle Gefangenen geben sich als Spartacus aus, um ihn zu schützen. Die berühmteste Szene des Films.','Kommt in keiner antiken Quelle vor. Frei erfunden.'],
+    ['Tod','Wird gekreuzigt und sieht im Sterben Frau und Sohn in Freiheit.','Fällt kämpfend in der letzten Schlacht, der Leichnam wird nie gefunden (Appian).'],
+    ['Via Appia','Die Kreuze säumen die Straße nach Rom, als Kulisse für das Ende des Helden.','Stimmt: 6 000 Gefangene werden an der Straße von Capua nach Rom gekreuzigt (Appian).']
+  ];
+  var fg=document.getElementById('flipgrid');
+  fg.innerHTML=flips.map(function(f,i){
+    return '<button type="button" class="flip" aria-pressed="false" id="flip'+i+'" data-reveal><span class="in">'
+      +'<span class="face front"><span class="lbl">Film 1960</span><span class="k">'+esc(f[0])+'</span><span>'+esc(f[1])+'</span><span class="hint">Was sagen die Quellen?</span></span>'
+      +'<span class="face back"><span class="lbl">Antike Quellen</span><span class="k">'+esc(f[0])+'</span><span>'+esc(f[2])+'</span><span class="hint">zurück zum Film</span></span>'
+      +'</span></button>';
+  }).join('');
+  fg.addEventListener('click',function(e){var b=e.target.closest('.flip');if(!b)return;var on=!b.classList.contains('on');b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+  var fa=document.getElementById('flipall');
+  fa.addEventListener('click',function(){var on=fa.getAttribute('aria-pressed')!=='true';fa.setAttribute('aria-pressed',on);fa.textContent=on?'Alle zudecken':'Alle aufdecken';
+    fg.querySelectorAll('.flip').forEach(function(b,i){setTimeout(function(){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)},reduce?0:i*90)})});
+
+  /* ---------- Übersetzungen ---------- */
+  document.querySelectorAll('.quelle .toggle').forEach(function(btn){
+    btn.addEventListener('click',function(){var q=btn.closest('.quelle');var on=!q.classList.contains('open');q.classList.toggle('open',on);btn.setAttribute('aria-pressed',on)});
+  });
+
+  /* ---------- Selbsttest ---------- */
+  var Q=[
+    ['Aus welcher Stadt brachen Spartacus und seine Gefährten aus?',['Rom','Capua','Neapel'],1,'Die Gladiatorenschule des Lentulus Batiatus lag in Capua.'],
+    ['Was bedeutet bei Florus „sine missione pugnatum est“?',['Es wurde ohne Befehl gekämpft.','Es wurde ohne Gnade bis zum Tod gekämpft.','Es wurde ohne Waffen gekämpft.'],1,'Missio ist die Begnadigung eines unterlegenen Gladiators. Florus spielt auf die Arena an.'],
+    ['Wie bezeichnet Varro Sklaven?',['instrumentum mutum','instrumentum semivocale','instrumentum vocale'],2,'Sklaven sind für Varro sprechende Werkzeuge, Rinder halbsprechende, Wagen stumme.'],
+    ['Wie stirbt Spartacus laut den antiken Quellen?',['am Kreuz an der Via Appia','kämpfend in vorderster Reihe','auf der Flucht nach Sizilien'],1,'Florus: in primo agmine fortissime dimicans. Gekreuzigt wurden die Gefangenen.'],
+    ['Welche Szene aus Kubricks Film ist frei erfunden?',['der Ausbruch aus Capua','„I\'m Spartacus!“','die Kreuzigungen an der Via Appia'],1,'Die Solidaritätsszene steht in keiner antiken Quelle.'],
+    ['Wer benannte eine politische Bewegung nach Spartacus?',['Rosa Luxemburg und Karl Liebknecht','Giuseppe Garibaldi','Seneca'],0,'Der Spartakusbund entstand aus der Spartakusgruppe von 1916.']
+  ];
+  var form=document.getElementById('quiz'),score=document.getElementById('score'),done={};
+  form.innerHTML=Q.map(function(q,i){
+    return '<fieldset class="q" data-reveal><legend><b>'+(i+1)+'</b>'+esc(q[0])+'</legend>'+q[1].map(function(a,j){
+      return '<label><input type="radio" id="q'+i+'a'+j+'" name="q'+i+'" value="'+j+'"><span>'+esc(a)+'</span></label>'}).join('')+'<p class="fb" id="fb'+i+'"></p></fieldset>'}).join('');
+  form.addEventListener('change',function(e){
+    var m=/^q(\d+)$/.exec(e.target.name); if(!m)return;
+    var i=+m[1],q=Q[i],v=+e.target.value;
+    form.querySelectorAll('input[name="q'+i+'"]').forEach(function(inp){var lab=inp.parentNode;lab.classList.remove('right','wrong');
+      if(+inp.value===q[2])lab.classList.add('right');else if(+inp.value===v)lab.classList.add('wrong')});
+    done[i]=(v===q[2]);
+    document.getElementById('fb'+i).innerHTML=(v===q[2]?'<b>&#10003; Richtig.</b> ':'<b>&#10007; Leider nicht.</b> ')+esc(q[3]);
+    var n=0;for(var k in done)if(done[k])n++;
+    score.innerHTML='<span>'+n+'</span> von '+Q.length+' richtig';
+  });
+
+  /* ---------- Filter ---------- */
+  var fbtn=document.querySelectorAll('.filters button');
+  fbtn.forEach(function(b){b.addEventListener('click',function(){
+    fbtn.forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    var f=b.dataset.f;
+    track.querySelectorAll('.hcard').forEach(function(c){c.hidden=!(f==='alle'||c.dataset.c===f)});
+    track.scrollLeft=0;
+    if(window.ScrollTrigger)ScrollTrigger.refresh();
+  })});
+
+  /* ---------- Rauchfahne über dem Vesuv ---------- */
+  var cv=document.getElementById('smoke'),ctx=cv.getContext('2d'),P=[],W=0,H=0,running=true,dpr=Math.min(window.devicePixelRatio||1,2);
+  function size(){W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+  function peak(){return {x:W*700/1440,y:H-H*.48+H*.48*90/400}}
+  function spawn(p,init){var k=peak();p.x=k.x+(Math.random()-.5)*14;p.y=k.y;p.r=6+Math.random()*8;p.vx=.18+Math.random()*.32;p.vy=.25+Math.random()*.3;p.life=init?Math.random()*400:0;p.max=380+Math.random()*260;
+    if(init){p.x+=p.vx*p.life;p.y-=p.vy*p.life;p.r+=p.life*.09}return p}
+  size();for(var i=0;i<55;i++)P.push(spawn({},true));
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<P.length;i++){var p=P[i];p.life++;p.x+=p.vx;p.y-=p.vy;p.r+=.09;
+      var t=p.life/p.max,a=Math.sin(Math.PI*Math.min(t,1))*.16;
+      var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);g.addColorStop(0,'rgba(255,255,255,'+a.toFixed(3)+')');g.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.283);ctx.fill();
+      if(p.life>p.max)spawn(p,false)}
+    if(running&&!reduce)requestAnimationFrame(draw);
+  }
+  draw();
+  window.addEventListener('resize',size);
+  if('IntersectionObserver' in window){new IntersectionObserver(function(es){var v=es[0].isIntersecting;if(v&&!running){running=true;draw()}running=v}).observe(document.querySelector('.hero'))}
+
+  /* ---------- Kapitelleiste ---------- */
+  var bar=document.querySelector('.chapbar'),links=bar.querySelectorAll('a');
+  function setOn(id){links.forEach(function(a){a.classList.toggle('on',a.dataset.ch===id)})}
+
+  /* ---------- Scroll-Bühnen in Stufen (ohne Anheften, ohne Scrub) ---------- */
+  (function(){
+    var kw=document.getElementById('kin-wrap'),kin=document.getElementById('kinetic'),kls=kin.querySelectorAll('.kline');
+    var ew=document.getElementById('echo-wrap'),eps=document.querySelectorAll('#echo p');
+    if(reduce){document.documentElement.classList.add('no-steps');return}
+    document.documentElement.classList.add('steps');
+    function prog(el){var r=el.getBoundingClientRect(),span=r.height-window.innerHeight;return span>0?Math.min(1,Math.max(0,-r.top/span)):(r.top<0?1:0)}
+    var ticking=false;
+    function update(){ticking=false;
+      var p=prog(kw);
+      kls.forEach(function(k,i){k.classList.toggle('done',p>.12+i*.24)});
+      kin.classList.toggle('all',p>.12+kls.length*.24-.1);
+      var q=prog(ew);
+      eps.forEach(function(e,i){if(i>0)e.classList.toggle('on',q>.08+(i-1)*.18)});
+    }
+    window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(update)}},{passive:true});
+    window.addEventListener('resize',update);
+    update();
+  })();
+
+  /* ---------- Ohne GSAP: alles sichtbar ---------- */
+  if(!window.gsap||!window.ScrollTrigger||reduce){
+    document.documentElement.classList.add('no-anim');
+    window.addEventListener('scroll',function(){bar.classList.toggle('show',window.scrollY>window.innerHeight*.6)},{passive:true});
+    if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setOn(e.target.id)})},{rootMargin:'-45% 0px -50% 0px'});
+      document.querySelectorAll('main section[id]').forEach(function(s){io.observe(s)})}
+    return;
+  }
+
+  /* ---------- Bewegung ---------- */
+  gsap.registerPlugin(ScrollTrigger);
+  document.documentElement.classList.add('has-gsap');
+
+  gsap.from('.hero h1 span',{yPercent:110,duration:1.3,ease:'expo.out',stagger:.06,delay:.1});
+  gsap.from('.hero .eyebrow,.hero .tagline,.hero .rule,.hero .lead,.hero-ctas',{y:26,opacity:0,duration:1,ease:'power3.out',stagger:.1,delay:.5});
+  gsap.to('.hero-bg',{yPercent:12,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+  gsap.to('.hero-sun',{yPercent:40,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+  gsap.to('.hero-inner',{yPercent:-12,opacity:.2,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+
+  gsap.to('.progress',{scaleX:1,ease:'none',scrollTrigger:{start:0,end:'max',scrub:.3}});
+  ScrollTrigger.create({trigger:'.numbers',start:'top 40%',onEnter:function(){bar.classList.add('show')},onLeaveBack:function(){bar.classList.remove('show')}});
+  document.querySelectorAll('main section[id]').forEach(function(s){ScrollTrigger.create({trigger:s,start:'top 50%',end:'bottom 50%',onToggle:function(st){if(st.isActive)setOn(s.id)}})});
+
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    var end=+el.dataset.count,o={v:0};
+    ScrollTrigger.create({trigger:el,start:'top 88%',once:true,onEnter:function(){
+      gsap.fromTo(o,{v:0},{v:end,duration:1.8,ease:'power2.out',onUpdate:function(){var n=Math.round(o.v);el.textContent=n>=1000?String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' '):n}})}});
+  });
+
+  gsap.utils.toArray('[data-reveal]').forEach(function(el){
+    var dir=el.getAttribute('data-reveal'),x=dir==='left'?-80:dir==='right'?80:0;
+    gsap.from(el,{x:x,y:x?0:44,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});
+  });
+  gsap.utils.toArray('.rule').forEach(function(r){gsap.from(r,{scaleX:0,transformOrigin:'left',duration:1.1,ease:'power3.out',scrollTrigger:{trigger:r,start:'top 90%'}})});
+
+  gsap.utils.toArray('.mark').forEach(function(m){gsap.fromTo(m,{yPercent:-10},{yPercent:25,ease:'none',scrollTrigger:{trigger:m.parentNode,start:'top bottom',end:'bottom top',scrub:true}})});
+
+  gsap.fromTo('.route .fill',{scaleY:0},{scaleY:1,ease:'none',scrollTrigger:{trigger:'.route',start:'top 70%',end:'bottom 60%',scrub:true}});
+
+  document.querySelectorAll('.la').forEach(function(p){ScrollTrigger.create({trigger:p,start:'top 75%',once:true,onEnter:function(){p.classList.add('lit')}})});
+
+  // Nachleben horizontal
+  var mm=gsap.matchMedia();
+  mm.add('(min-width: 900px)',function(){
+    var sec=document.getElementById('nachleben');sec.classList.add('pinnable');
+    var dist=function(){return Math.max(0,track.scrollWidth-window.innerWidth)};
+    gsap.to(track,{x:function(){return -dist()},ease:'none',scrollTrigger:{trigger:sec,start:'top top',end:function(){return '+='+dist()},pin:true,scrub:.8,invalidateOnRefresh:true,anticipatePin:1}});
+    return function(){sec.classList.remove('pinnable');gsap.set(track,{x:0})};
+  });
+  mm.add('(max-width: 899px)',function(){
+    gsap.from('.hcard',{opacity:0,x:60,stagger:.08,duration:.8,ease:'power3.out',scrollTrigger:{trigger:'#htrack',start:'top 85%'}});
+  });
+
+  window.addEventListener('load',function(){ScrollTrigger.refresh()});
+})();
+</script>
