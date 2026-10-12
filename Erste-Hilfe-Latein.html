@@ -1,0 +1,1328 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>Erste Hilfe Latein</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: handyzuerst gebautes Grammatik-Handbuch. Kopf mit Themenverzeichnis nach Gruppen, klebende Leiste mit "Themen"-Knopf,
+   jedes Thema eine Treppe aus nummerierten Stufen mit Merkkästen, Stolperfallen, Spielzeugen, Selbsttest und Spickzettel.
+   Gleiche Farbwelt wie die Rezeptionsseiten; bewusst nur ein heller Look. Blau/Gold statt Rot/Grün. */
+:root{
+  --bg:#F5F7FA; --panel:#FFFFFF; --ink:#14294B; --muted:#5A6680; --line:#DCE2EB;
+  --navy:#1B365D; --navy-deep:#122746; --on-navy:#F4F6FA; --on-navy-muted:#B9C4D8;
+  --gold:#C29A42; --gold-ink:#8A6A22; --gold-soft:#FBF3E3; --tint:#EAF1F9; --warn:#FFF4E5; --warn-line:#E0A54A; --warn-ink:#9A5B00;
+  --display:"Cormorant Garamond",Garamond,"Times New Roman",serif;
+  --body:"Montserrat","Segoe UI",system-ui,-apple-system,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--bg)}
+body{color:var(--ink);font:400 16px/1.7 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:780px;margin-inline:auto;padding-inline:16px}
+.wrap>*,.topic>*,.step>*,.box>*,.ex>*{min-width:0}
+.la{font-family:var(--display);font-style:italic;font-weight:600;font-size:1.22em;line-height:1.3}
+.end{color:var(--gold-ink);font-weight:700;font-style:normal;font-family:var(--body);font-size:.82em}
+.eyebrow{font:600 11px/1.2 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--gold-ink)}
+.small{font-size:14px;color:var(--muted)}
+
+/* Kopf mit Verzeichnis */
+.top{background:var(--navy);color:var(--on-navy);position:relative;overflow:hidden;isolation:isolate}
+.top::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 70% 80% at 90% 0%,rgba(194,154,66,.28),transparent 60%),radial-gradient(ellipse 60% 70% at 0% 100%,rgba(120,160,220,.22),transparent 60%)}
+.top .wrap{padding-block:24px 26px;display:grid;gap:14px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand svg{width:42px;height:42px;flex:none}
+.brand b{font:600 13px/1.2 var(--body);letter-spacing:.18em;text-transform:uppercase}
+.brand span{display:block;font:italic 500 15px/1.2 var(--display);color:var(--gold);letter-spacing:0;text-transform:none}
+.top h1{font:600 clamp(36px,9vw,58px)/1.02 var(--display)}
+.top h1 em{color:var(--gold);font-style:italic}
+.top p{color:var(--on-navy-muted);max-width:46ch;font-size:15px}
+.index{display:grid;gap:14px;margin-top:6px}
+.igroup{display:grid;gap:8px}
+.igroup>span{font:600 11px/1 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.icards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr));gap:8px}
+.icard{display:flex;gap:10px;align-items:center;text-align:left;background:rgba(255,255,255,.07);border:1px solid rgba(244,246,250,.18);border-radius:12px;padding:10px 12px;cursor:pointer;color:var(--on-navy);transition:background .3s,border-color .3s;min-width:0}
+.icard i{font:600 20px/1 var(--display);font-style:normal;color:var(--gold);flex:none;width:26px;text-align:center}
+.icard b{font-weight:600;font-size:13.5px;line-height:1.3}
+.icard:hover,.icard[aria-current="true"]{background:rgba(255,255,255,.16);border-color:var(--gold)}
+
+/* Leiste */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(245,247,250,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:10px;padding-block:9px}
+.menu-btn{flex:none;display:flex;gap:8px;align-items:center;border:1.5px solid var(--navy);background:var(--navy);color:#fff;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.menu-btn svg{width:16px;height:16px}
+.cur{flex:1;min-width:0;display:flex;gap:8px;align-items:baseline;overflow:hidden}
+.cur i{font:600 20px/1 var(--display);font-style:normal;color:var(--gold-ink)}
+.cur b{font:600 20px/1.1 var(--display);color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arrows{display:flex;gap:4px;flex:none}
+.arrows button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:16px;line-height:1}
+.arrows button:disabled{opacity:.35;cursor:default}
+
+/* Themenblatt */
+.sheet{position:fixed;inset:0;z-index:40;background:rgba(18,39,70,.45);display:grid;align-items:end;justify-items:center;padding:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));animation:fade .25s ease}
+.sheet[hidden]{display:none}
+.sheet-in{background:#fff;border-radius:20px;width:min(100%,560px);max-height:82vh;overflow:auto;padding:18px;display:grid;gap:14px;animation:up .35s var(--ease)}
+.sheet-in header{display:flex;justify-content:space-between;align-items:center}
+.sheet-in h2{font:600 28px/1 var(--display);color:var(--navy)}
+.sheet-in .x{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:18px}
+.sgroup{display:grid;gap:6px}
+.sgroup>span{font:600 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink)}
+.sitem{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:#fff;cursor:pointer;text-align:left}
+.sitem i{font:600 20px/1 var(--display);font-style:normal;color:var(--gold-ink);width:28px;text-align:center;flex:none}
+.sitem b{font-weight:600;font-size:15px}
+.sitem[aria-current="true"]{border-color:var(--navy);background:var(--tint)}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+
+/* Thema */
+.topic{padding-block:22px 40px;display:grid;gap:18px}
+.topic-hero{display:grid;gap:10px;padding-block:8px 6px}
+.topic-hero h2{font:600 clamp(36px,9vw,52px)/1.02 var(--display);color:var(--navy)}
+.topic-hero h2 span{font-style:italic;color:var(--gold-ink);display:block;font-size:.62em;margin-top:4px}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:600 12px/1 var(--body);padding:7px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--muted)}
+.goal{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:8px}
+.goal ul{margin:0;padding-left:20px;display:grid;gap:4px;font-size:15px}
+
+/* Stufen */
+.step{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px 16px 22px;display:grid;gap:14px;box-shadow:0 1px 2px rgba(20,41,75,.04),0 14px 30px -24px rgba(20,41,75,.3)}
+@media (min-width:560px){.step{padding:22px 22px 24px}}
+.step-head{display:flex;gap:14px;align-items:center}
+.num{flex:none;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:600 22px/1 var(--display)}
+.num.bonus{background:var(--gold);font-size:14px;font-family:var(--body);font-weight:700}
+.step-head h3{font:600 26px/1.1 var(--display);color:var(--navy)}
+.step-head small{display:block;font:600 11px/1.3 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.big{font-size:17px;line-height:1.6}
+.ex{background:var(--tint);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.ex .de{font-size:14.5px;color:var(--muted)}
+
+.box{border-radius:14px;padding:14px 14px 14px 46px;position:relative;display:grid;gap:6px;font-size:15px}
+.box::before{position:absolute;left:13px;top:13px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:700 14px/1 var(--body)}
+.box b.t{font:700 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase}
+.merke{background:var(--gold-soft);border:1px solid #EAD7AE}
+.merke::before{content:"!";background:var(--gold);color:#fff}
+.merke b.t{color:var(--gold-ink)}
+.falle{background:var(--warn);border:1px solid #F1D2A2}
+.falle::before{content:"\26A0";color:var(--warn-ink);font-size:18px}
+.falle b.t{color:var(--warn-ink)}
+.tipp{background:var(--tint);border:1px solid #CFDDEE}
+.tipp::before{content:"\2192";background:var(--navy);color:#fff}
+.tipp b.t{color:var(--navy)}
+
+/* gemeinsame Bedienelemente */
+.pill{border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:background .3s,color .3s}
+.pill[aria-pressed="true"]{background:var(--navy);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;cursor:pointer;font:italic 600 17px/1.1 var(--display);transition:background .25s,border-color .25s,color .25s}
+.chips button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.pop{animation:pop .45s var(--ease)}
+@keyframes pop{0%{transform:scale(.92);opacity:.3}100%{transform:none;opacity:1}}
+
+/* Familien */
+.fams{display:grid;gap:10px}
+@media (min-width:620px){.fams{grid-template-columns:repeat(3,1fr)}}
+.fam{border:1.5px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:8px;align-content:start;cursor:pointer;background:#fff;text-align:left;transition:border-color .3s,box-shadow .3s;min-width:0}
+.fam[aria-pressed="true"]{border-color:var(--navy);box-shadow:0 0 0 3px rgba(27,54,93,.12)}
+.fam .n{font:600 34px/1 var(--display);color:var(--gold-ink)}
+.fam .lbl{font-weight:700;font-size:14px}
+.genders{display:flex;gap:6px}
+.genders span{flex:1;min-width:0;text-align:center;border-radius:8px;padding:6px 2px;font-size:12.5px;background:var(--bg);border:1px solid var(--line)}
+.genders span em{display:block;font:italic 600 17px/1.2 var(--display);color:var(--ink)}
+.detail{border-radius:12px;background:var(--tint);padding:12px 14px;font-size:14.5px;min-height:3.2em}
+
+/* Sortierspiel */
+.sorter{display:grid;gap:8px}
+.srow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:8px 8px 8px 12px;background:#fff;transition:background .3s,border-color .3s}
+.srow .la{font-size:18px}
+.srow .btns{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}
+.srow button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 10px;font-size:12.5px;font-weight:600;cursor:pointer}
+.srow.ok{background:var(--tint);border-color:var(--navy)}
+.srow.no{background:var(--warn);border-color:var(--warn-line)}
+.srow .fb{grid-column:1/-1;font-size:13.5px;color:var(--muted)}
+.srow .fb:empty{display:none}
+@media (max-width:420px){.srow.wide{grid-template-columns:1fr}.srow.wide .btns{justify-content:flex-start}}
+
+/* Tabellen (handytauglich, max. drei Spalten) */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:#fff;max-width:100%}
+table.tbl{border-collapse:collapse;width:100%;font-size:14.5px}
+.tbl th,.tbl td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--line)}
+.tbl thead th{font:600 11px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+.tbl td.c{font:600 12px/1 var(--body);color:var(--muted);white-space:nowrap;width:1%}
+.tbl td.la{font-size:19px}
+.tbl td.mid{text-align:center}
+.tbl tr.sep td{background:var(--bg);font:600 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:6px 10px}
+.tbl td.diff{transition:background .5s,box-shadow .5s}
+.show-diff .tbl td.diff{background:var(--gold-soft);box-shadow:inset 3px 0 0 var(--gold)}
+.togglebar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+
+/* Endungs-Maschine */
+.machine{background:var(--navy);color:var(--on-navy);border-radius:20px;padding:16px;display:grid;gap:14px}
+.machine .eyebrow{color:var(--gold)}
+.ctl{display:grid;gap:6px}
+.ctl>span{font:600 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--on-navy-muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{border:1.5px solid rgba(244,246,250,.3);border-radius:10px;padding:8px 10px;font-size:13.5px;font-weight:600;cursor:pointer;transition:background .25s,color .25s,border-color .25s;min-width:40px;text-align:center}
+.seg label em{font:italic 600 17px/1 var(--display)}
+.seg input:checked+label{background:var(--gold);border-color:var(--gold);color:var(--navy-deep)}
+.seg input:focus-visible+label{outline:3px solid #fff;outline-offset:2px}
+.out{background:#fff;color:var(--ink);border-radius:14px;padding:16px;display:grid;gap:8px;text-align:center}
+.out .form{font:italic 600 clamp(40px,12vw,60px)/1 var(--display);color:var(--navy);overflow-wrap:anywhere}
+.out .form b{color:var(--gold-ink);font-weight:700}
+.out .pair{font-size:15px;color:var(--muted)}
+.out .pair .la{color:var(--ink)}
+.out .note{font-size:14px;background:var(--gold-soft);border-radius:10px;padding:8px 10px;color:var(--ink)}
+.out .note:empty{display:none}
+
+/* Paare */
+.pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:8px}
+.pairs>div{border-radius:12px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);min-width:0}
+.pairs .la{font-size:20px}
+.pairs small{display:block;font-size:12.5px;color:var(--muted);line-height:1.45}
+
+/* Satz-Lupe */
+.lupe{display:grid;gap:10px}
+.sent{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:18px 14px 14px;font:italic 600 22px/2.2 var(--display);overflow-wrap:break-word}
+.w{position:relative;padding:2px 3px;border-radius:6px;transition:background .4s,color .4s;font-style:inherit}
+.w .cs{position:absolute;left:50%;top:-15px;transform:translateX(-50%);font:700 10px/1 var(--body);letter-spacing:.04em;color:var(--muted);opacity:0;transition:opacity .4s;white-space:nowrap;font-style:normal}
+.lit .w .cs{opacity:1}
+.lit .w.bez{background:var(--tint);color:var(--navy)}
+.lit .w.app,.lit .w.pr{background:var(--gold-soft);color:var(--gold-ink);box-shadow:inset 0 -2px 0 var(--gold)}
+.lit .w.vb{background:var(--tint);color:var(--navy);box-shadow:inset 0 -2px 0 var(--navy)}
+.sent-de{font-size:15px;color:var(--muted);min-height:1.5em;transition:opacity .4s}
+.sent:not(.lit)+.sent-de{opacity:0}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.navrow{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+
+/* Steigerungs-Treppe */
+.stairs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:6px;height:230px;padding-top:6px}
+.stair{display:grid;align-content:start;gap:4px;padding:10px 4px;border-radius:12px 12px 4px 4px;background:var(--tint);border:1px solid #CFDDEE;text-align:center;height:var(--h);transition:height .9s var(--ease);min-width:0}
+.stair:nth-child(2){background:#DCE7F5}
+.stair:nth-child(3){background:var(--gold-soft);border-color:#EAD7AE}
+.stair small{font:600 10px/1.2 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.stair .la{font-size:clamp(15px,4.3vw,24px);overflow-wrap:anywhere;color:var(--navy);letter-spacing:-.01em}
+.stair .la b{color:var(--gold-ink)}
+.stair .de{font-size:12.5px;color:var(--muted);line-height:1.3}
+.js .stairs:not(.grown) .stair{height:46px}
+
+/* Stamm-Finder */
+.finder{display:grid;gap:10px;background:var(--bg);border-radius:14px;padding:14px;border:1px solid var(--line)}
+.frow{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px;align-items:baseline;transition:opacity .5s,transform .5s}
+.frow>span:first-child{font:600 11px/1.3 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.frow .la{font-size:24px}
+.frow .cut{position:relative;color:var(--muted);transition:color .4s}
+.frow .cut::after{content:"";position:absolute;left:-2px;right:-2px;top:55%;height:2px;background:var(--warn-line);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.finder.s1 .cut::after{transform:scaleX(1)}
+.finder .add{color:var(--gold-ink);font-style:normal;font-family:var(--body);font-weight:700;font-size:.8em}
+.js .finder:not(.s2) .r2,.js .finder:not(.s3) .r3{opacity:0;transform:translateY(8px)}
+@media (max-width:400px){.frow{grid-template-columns:1fr;gap:0}}
+
+/* Duell */
+.duel{display:grid;gap:8px}
+.drow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:center}
+.drow>div{border-radius:12px;padding:10px;border:1px solid var(--line);background:#fff;text-align:center;min-width:0}
+.drow .la{font-size:20px}
+.drow small{display:block;font-size:11.5px;color:var(--muted);line-height:1.3}
+.drow .vs{font:italic 600 18px/1 var(--display);color:var(--gold-ink)}
+.duel .head{font:600 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:center}
+
+/* Übersetzungs-Regler */
+.dial{display:grid;gap:10px}
+.dial .sent{line-height:1.6;padding:14px}
+.opts{display:grid;gap:6px}
+.opt{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;transition:opacity .4s,background .4s,border-color .4s}
+.opt b{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:var(--bg);color:var(--muted)}
+.opt.on{background:var(--tint);border-color:var(--navy)}
+.opt.on b{background:var(--navy);color:#fff}
+.opt.maybe{background:#fff;border-style:dashed;border-color:var(--gold)}
+.opt.maybe b{background:var(--gold-soft);color:var(--gold-ink)}
+.opt:not(.on):not(.maybe){opacity:.5}
+.opt span small{display:block;font-size:12.5px;color:var(--muted)}
+
+/* Weiche */
+.switch{background:var(--navy);border-radius:20px;padding:14px;display:grid;gap:12px;color:var(--on-navy)}
+.switch .eyebrow{color:var(--gold)}
+.switch svg{width:100%;height:auto;display:block}
+.switch .chips button{background:transparent;border-color:rgba(244,246,250,.3);color:var(--on-navy)}
+.switch .chips button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--navy-deep)}
+.switch .res{background:#fff;color:var(--ink);border-radius:14px;padding:12px 14px;text-align:center;display:grid;gap:4px}
+.switch .res .la{font-size:30px;color:var(--navy)}
+.switch .res .la b{color:var(--gold-ink)}
+.switch .res small{font-size:13px;color:var(--muted)}
+
+/* Karten */
+.flipgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,120px),1fr))}
+.flip{perspective:1000px;background:none;border:0;padding:0;text-align:left;cursor:pointer;min-height:132px;display:grid}
+.flip .in{position:relative;display:grid;transform-style:preserve-3d;transition:transform .7s var(--ease)}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;padding:14px;display:grid;gap:6px;align-content:start}
+.flip .front{background:#fff;border:1px solid var(--line)}
+.flip .front .la{font-size:24px;color:var(--navy)}
+.flip .front small{font-size:12.5px;color:var(--muted)}
+.flip .back{background:var(--navy);color:var(--on-navy);transform:rotateY(180deg);font-size:13.5px}
+.flip .back .la{color:#fff;font-size:18px}
+.flip .back .lw{color:var(--gold);font-weight:600;font-size:12.5px}
+.flip .hint{margin-top:auto;font-size:12px;color:var(--muted);font-weight:600}
+.flip .hint::before{content:"\21BB  ";color:var(--gold)}
+
+/* Brücke */
+.bridge{display:grid;gap:10px}
+.bstage{position:relative;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:24px 14px 16px 18px}
+.bstage p{font:italic 600 22px/1.9 var(--display)}
+.bstage p+p{margin-top:26px}
+.bstage .ref,.bstage .pro{padding:1px 4px;border-radius:6px;transition:background .4s,color .4s,box-shadow .4s}
+.bstage.lit .ref{background:var(--tint);color:var(--navy);box-shadow:inset 0 -2px 0 var(--navy)}
+.bstage.lit .pro{background:var(--gold-soft);color:var(--gold-ink);box-shadow:inset 0 -2px 0 var(--gold)}
+.bstage svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.bstage path{fill:none;stroke:var(--gold);stroke-width:2.5;stroke-linecap:round}
+.bde{display:grid;gap:4px;font-size:15.5px;transition:opacity .4s}
+.bde s{color:var(--warn-ink);text-decoration-thickness:2px}
+.bde .now{color:var(--navy);font-weight:700;background:var(--gold-soft);padding:0 4px;border-radius:4px}
+.bridge:not(.lit) .bde{opacity:0}
+
+/* Waage */
+.scale{background:var(--navy);border-radius:20px;padding:14px;display:grid;gap:12px;color:var(--on-navy)}
+.scale .eyebrow{color:var(--gold)}
+.scale svg{width:100%;height:auto;display:block}
+.scale .bar{transform-box:fill-box;transform-origin:50% 100%;transition:transform 1s var(--ease)}
+.scale .prop{font-size:14px;color:var(--on-navy-muted)}
+.scale .prop b{font:italic 600 19px/1 var(--display);color:var(--gold)}
+.morph{background:#fff;color:var(--ink);border-radius:14px;padding:14px;display:grid;gap:8px;text-align:center}
+.mline{font:italic 600 clamp(20px,6vw,26px)/1.4 var(--display)}
+.mline .vq{color:var(--navy);background:var(--tint);border-radius:5px;padding:0 4px}
+.mline .vab{color:var(--gold-ink);background:var(--gold-soft);border-radius:5px;padding:0 4px;box-shadow:inset 0 -2px 0 var(--gold)}
+.mline{transition:opacity .45s,transform .45s}
+.mline.fade{opacity:0;transform:translateY(8px)}
+.morph small{font-size:12.5px;color:var(--muted)}
+.morph .de{font-size:15px}
+.scale .navrow .pill{background:transparent;color:var(--on-navy);border-color:rgba(244,246,250,.5)}
+.scale .navrow .pill[aria-pressed="true"]{background:var(--gold);color:var(--navy-deep);border-color:var(--gold)}
+.scale .chip{background:transparent;color:var(--on-navy-muted);border-color:rgba(244,246,250,.3)}
+
+/* Originalzitat */
+.orig{border-left:3px solid var(--gold);padding:4px 0 4px 14px;display:grid;gap:3px}
+.orig .la{font-size:22px;color:var(--navy)}
+.orig .de{font-size:14.5px;color:var(--muted)}
+.orig cite{font:600 11px/1.3 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--gold-ink);font-style:normal}
+.box .orig{margin-top:4px}
+/* Schritt-für-Schritt-Übersetzer */
+.stepper{display:grid;gap:10px}
+.stepper .sent{line-height:1.8;padding:16px 14px}
+.stepper .tk{padding:1px 4px;border-radius:6px;transition:background .45s,color .45s,box-shadow .45s}
+.stepper .tk.hk{background:var(--tint);color:var(--navy);box-shadow:inset 0 -2px 0 var(--navy)}
+.stepper .tk.ha{background:var(--gold-soft);color:var(--gold-ink);box-shadow:inset 0 -2px 0 var(--gold)}
+.stepper .tk.hs{background:var(--bg);box-shadow:inset 0 0 0 1px var(--line)}
+.stepinfo{display:grid;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-height:150px;align-content:start}
+.stepinfo b.s{font:600 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
+.stepinfo .de{font-size:16px;color:var(--navy);font-weight:600;min-height:1.4em;border-top:1px dashed var(--line);padding-top:6px}
+.dots{display:flex;gap:6px}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line);transition:background .3s}
+.dots i.on{background:var(--navy)}
+.pill:disabled{opacity:.4;cursor:default}
+.srow .fb .tr{display:block;color:var(--ink);font-weight:600;margin-top:2px}
+
+/* Quiz */
+.quiz{display:grid;gap:12px}
+.q{border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px;margin:0;display:grid;gap:6px;min-width:0}
+.q legend{font-weight:600;padding:0;float:left;width:100%;margin-bottom:6px;font-size:15px}
+.q legend b{font:600 20px/1 var(--display);color:var(--gold-ink);margin-right:8px}
+.q label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding:9px 10px;border-radius:10px;border:1px solid transparent;font-size:15px;transition:background .3s,border-color .3s}
+.q input{margin-top:5px;accent-color:var(--navy);flex:none}
+.q label.right{background:var(--tint);border-color:var(--navy)}
+.q label.wrong{background:var(--warn);border-color:var(--warn-line)}
+.q .fb{font-size:14px;color:var(--muted)}
+.q .fb:empty{display:none}
+.score{font:600 26px/1 var(--display);color:var(--navy)}
+
+/* Spickzettel */
+.spick{background:var(--navy);color:var(--on-navy);border-radius:20px;padding:20px 18px;display:grid;gap:12px}
+.spick h3{font:600 30px/1 var(--display)}
+.spick h3 em{color:var(--gold)}
+.spick ol{margin:0;padding-left:22px;display:grid;gap:8px}
+.spick ol li::marker{font:600 18px var(--display);color:var(--gold)}
+.spick .la{color:#fff}
+.spick .end{color:var(--gold)}
+
+/* Weiter */
+.next{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.next button{display:grid;gap:2px;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;cursor:pointer}
+.next button small{font:600 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.next button b{font:600 22px/1.15 var(--display);color:var(--navy)}
+.next button.fw{text-align:right;border-color:var(--navy)}
+
+footer{padding-block:20px 60px;color:var(--muted);font-size:13px}
+.rv{transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.js .rv:not(.in){opacity:0;transform:translateY(18px)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.js .rv:not(.in){opacity:1;transform:none}.js .stairs:not(.grown) .stair{height:var(--h)}.js .finder .r2,.js .finder .r3{opacity:1!important;transform:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="#C29A42" stroke-width="1.5"/><path d="M20 12h8v8h8v8h-8v8h-8v-8h-8v-8h8z" fill="#F4F6FA"/><path d="M9 30c2 5 6 9 11 10M39 30c-2 5-6 9-11 10" fill="none" stroke="#C29A42" stroke-width="1.6" stroke-linecap="round"/><path d="M11 33l-3 1M13 36l-3 2M37 33l3 1M35 36l3 2" stroke="#C29A42" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <b>Erste Hilfe Latein<span>Grammatik, die man versteht</span></b>
+    </div>
+    <h1>Schritt für Schritt <em>zum Durchblick.</em></h1>
+    <p>Jedes Thema beginnt ganz vorne und baut langsam auf. Gelb heißt: wichtig. Orange heißt: Stolperfalle. Am Ende warten ein Selbsttest und ein Spickzettel.</p>
+    <nav class="index" id="index" aria-label="Themenverzeichnis"></nav>
+  </div>
+</header>
+
+<div class="bar" id="bar">
+  <div class="wrap">
+    <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sheet"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Themen</button>
+    <div class="cur" aria-live="polite"><i id="curNum"></i><b id="curTitle"></b></div>
+    <div class="arrows"><button type="button" id="prevBtn" aria-label="Vorheriges Thema">&larr;</button><button type="button" id="nextBtn" aria-label="Nächstes Thema">&rarr;</button></div>
+  </div>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-in" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <header><h2 id="sheetTitle">Alle Themen</h2><button type="button" class="x" id="sheetClose" aria-label="Schließen">&times;</button></header>
+    <div id="sheetList" style="display:grid;gap:14px"></div>
+  </div>
+</div>
+
+<main class="wrap" id="main">
+
+<!-- ================= I. ADJEKTIVE 3. DEKL ================= -->
+<section class="topic" id="adjektive" hidden>
+  <div class="topic-hero">
+    <span class="eyebrow">Thema I · Adjektive</span>
+    <h2>Adjektive der 3. Deklination</h2>
+    <div class="meta"><span class="chip">ca. 15 Minuten</span><span class="chip">Vorwissen: magnus, -a, -um und rex, regis</span></div>
+  </div>
+  <div class="goal rv">
+    <span class="eyebrow">Nach diesem Thema kannst du</span>
+    <ul><li>diese Adjektive in der Vokabelangabe erkennen,</li><li>ihre drei Familien unterscheiden,</li><li>die drei Endungen benennen, die anders sind als bei <span class="la">rex</span>,</li><li>sie richtig mit einem Nomen verbinden.</li></ul>
+  </div>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">1</span><h3><small>Worum geht's?</small>Eine zweite Sorte Adjektive</h3></div>
+    <p class="big">Du kennst schon Adjektive wie <span class="la">magnus, magna, magnum</span>. Sie gehen nach der a- und o-Deklination. Es gibt aber eine zweite, genauso große Gruppe: Adjektive, die sich wie Nomen der <b>3. Deklination</b> verhalten, also ähnlich wie <span class="la">rex, regis</span>.</p>
+    <div class="ex"><span class="la">vir fortis</span><span class="de">ein tapferer Mann</span></div>
+    <div class="ex"><span class="la">cum militibus fortibus</span><span class="de">mit tapferen Soldaten</span></div>
+    <div class="orig"><span class="la">Fortes fortuna adiuvat.</span><span class="de">Den Tapferen hilft das Glück.</span><cite>Sprichwort nach Terenz</cite></div>
+    <div class="box merke"><b class="t">Merke</b><span>Die Endungen kennst du fast alle schon aus der 3. Deklination. Neu sind nur drei kleine Unterschiede, die schauen wir uns in Stufe 4 an.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">2</span><h3><small>Erkennen</small>Woran sehe ich das?</h3></div>
+    <p>Schau auf die Vokabelangabe. Steht dort <b>nicht</b> <span class="la">-us, -a, -um</span> oder <span class="la">-er, -era, -erum</span>, sondern etwas mit <span class="la">-is</span> oder <span class="la">-e</span>, dann hast du ein Adjektiv der 3. Deklination. Sicheres Erkennungszeichen: Der <b>2. Fall endet auf <span class="la">-is</span></b>.</p>
+    <p class="small">Probier's aus: Tippe bei jedem Wort auf die richtige Gruppe.</p>
+    <div class="sorter" id="sorter"></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">3</span><h3><small>Drei Familien</small>Eine, zwei oder drei Endungen</h3></div>
+    <p>Die Adjektive unterscheiden sich nur im <b>1. Fall</b>. Je nachdem, wie viele verschiedene Formen es dort für männlich, weiblich und sächlich gibt, spricht man von ein-, zwei- oder dreiendigen Adjektiven. Tippe eine Familie an.</p>
+    <div class="fams" id="fams">
+      <button type="button" class="fam" aria-pressed="false"><span class="n">1</span><span class="lbl">einendig</span><span class="genders"><span>m.<em>felix</em></span><span>f.<em>felix</em></span><span>n.<em>felix</em></span></span></button>
+      <button type="button" class="fam" aria-pressed="true"><span class="n">2</span><span class="lbl">zweiendig · die meisten</span><span class="genders"><span>m.<em>fortis</em></span><span>f.<em>fortis</em></span><span>n.<em>forte</em></span></span></button>
+      <button type="button" class="fam" aria-pressed="false"><span class="n">3</span><span class="lbl">dreiendig · selten</span><span class="genders"><span>m.<em>acer</em></span><span>f.<em>acris</em></span><span>n.<em>acre</em></span></span></button>
+    </div>
+    <div class="detail" id="famdetail" aria-live="polite"></div>
+    <div class="box merke"><b class="t">Merke</b><span>Ab dem 2. Fall sind alle drei Familien gleich. Wer <span class="la">fortis</span> kann, kann alle.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">4</span><h3><small>Die Endungen</small>Fast wie rex, mit drei Ausnahmen</h3></div>
+    <p>Links das Nomen, das du schon kennst, rechts das neue Adjektiv. Wähle das Geschlecht und lass die Unterschiede aufleuchten.</p>
+    <div class="togglebar">
+      <div class="chips" id="cmpGender"><button type="button" aria-pressed="true" data-g="mf">männlich/weiblich</button><button type="button" aria-pressed="false" data-g="n">sächlich</button></div>
+      <button type="button" class="pill" id="diffbtn" aria-pressed="false">Unterschiede zeigen</button>
+    </div>
+    <div id="cmpbox"><div class="tbl-wrap"><table class="tbl" id="cmpTable"></table></div></div>
+    <div class="box merke"><b class="t">Die drei Unterschiede</b>
+      <span>① 6. Fall Singular auf <span class="la">-i</span>: <span class="la">forti</span> statt <span class="la">-e</span></span>
+      <span>② 2. Fall Plural auf <span class="la">-ium</span>: <span class="la">fortium</span></span>
+      <span>③ Neutrum Plural (1. und 4. Fall) auf <span class="la">-ia</span>: <span class="la">fortia</span></span>
+    </div>
+    <div class="orig"><span class="la">Omn<span class="end">ia</span> vincit Amor.</span><span class="de">Alles besiegt die Liebe. omnia ist Neutrum Plural von omnis, hier der 4. Fall: alles.</span><cite>Vergil, Eklogen 10,69</cite></div>
+    <p class="small">Der 5. Fall (Vokativ) sieht immer aus wie der 1. Fall und fehlt deshalb in der Tabelle.</p>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">5</span><h3><small>Ausprobieren</small>Die Endungs-Maschine</h3></div>
+    <p>Stell ein, was du brauchst, und die Maschine baut die Form. Die Endung ist gelb. Darunter siehst du sie neben einem Nomen.</p>
+    <div class="machine" id="machine">
+      <span class="eyebrow">Endungs-Maschine</span>
+      <div class="ctl"><span>Adjektiv</span><div class="seg" id="m-adj"></div></div>
+      <div class="ctl"><span>Fall</span><div class="seg" id="m-case"></div></div>
+      <div class="ctl"><span>Zahl</span><div class="seg" id="m-num"></div></div>
+      <div class="ctl"><span>Geschlecht</span><div class="seg" id="m-gen"></div></div>
+      <div class="out" aria-live="polite"><div class="form" id="m-form"></div><div class="pair" id="m-pair"></div><div class="note" id="m-note"></div></div>
+    </div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">6</span><h3><small>Stolperfallen</small>Wo fast alle hineintappen</h3></div>
+    <div class="box falle"><b class="t">Falle 1: -i ist nicht nur 3. Fall</b><span>Bei diesen Adjektiven steht <span class="la">-i</span> auch im <b>6. Fall</b>.</span><div class="ex"><span class="la">Miles fort<span class="end">i</span> animo pugnavit.</span><span class="de">Der Soldat kämpfte mit tapferem Mut. (6. Fall)</span></div></div>
+    <div class="box falle"><b class="t">Falle 2: -e ist kein 6. Fall</b><span>Bei diesen Adjektiven bedeutet <span class="la">-e</span> den <b>1. oder 4. Fall Neutrum Singular</b>.</span><div class="ex"><span class="la">Omne initium difficil<span class="end">e</span> est.</span><span class="de">Jeder Anfang ist schwer. (1. Fall)</span></div></div>
+    <div class="box falle"><b class="t">Falle 3: gleiche Sache, andere Endung</b><span>Adjektiv und Nomen stimmen in <b>Kasus, Numerus und Genus</b> überein (KNG). Die Endungen müssen aber nicht gleich aussehen.</span></div>
+    <div class="pairs">
+      <div><span class="la">serv<span class="end">o</span> fort<span class="end">i</span></span><small>3. Fall Sg. m.</small></div>
+      <div><span class="la">serv<span class="end">orum</span> fort<span class="end">ium</span></span><small>2. Fall Pl. m.</small></div>
+      <div><span class="la">serv<span class="end">ae</span> fort<span class="end">is</span></span><small>2. Fall Sg. f.</small></div>
+      <div><span class="la">don<span class="end">a</span> fort<span class="end">ia</span></span><small>4. Fall Pl. n.</small></div>
+    </div>
+    <div class="box tipp"><b class="t">Profi-Tipp</b><span>Prüfe nie, ob die Endungen gleich aussehen. Frag dich: Welcher Fall, welche Zahl, welches Geschlecht hat das Nomen? Dann such die passende Adjektivform.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">7</span><h3><small>Selbsttest</small>Sitzt es?</h3></div>
+    <form class="quiz" data-quiz="adj" onsubmit="return false"></form>
+    <p class="score" data-score="adj"></p>
+  </article>
+
+  <aside class="spick rv">
+    <span class="eyebrow" style="color:var(--gold)">Spickzettel</span>
+    <h3>Adjektive der <em>3. Deklination</em></h3>
+    <ol>
+      <li>Erkennbar am 2. Fall auf <span class="la">-is</span>.</li>
+      <li>Drei Familien, unterschieden nur im 1. Fall: <span class="la">felix</span> · <span class="la">fortis, forte</span> · <span class="la">acer, acris, acre</span>.</li>
+      <li>Endungen wie <span class="la">rex</span>, außer <span class="la">-<span class="end">i</span></span> (6. Sg.), <span class="la">-<span class="end">ium</span></span> (2. Pl.), <span class="la">-<span class="end">ia</span></span> (n. Pl.).</li>
+      <li><span class="la">-e</span> ist hier immer Neutrum Singular, nie Ablativ.</li>
+      <li>KNG ja, gleiche Endung nein.</li>
+    </ol>
+  </aside>
+</section>
+
+<!-- ================= II. KOMPARATIV ================= -->
+<section class="topic" id="komparativ" hidden>
+  <div class="topic-hero">
+    <span class="eyebrow">Thema II · Adjektive</span>
+    <h2>Komparativ<span>die Mehrstufe</span></h2>
+    <div class="meta"><span class="chip">ca. 15 Minuten</span><span class="chip">Vorwissen: Adjektive und die Deklination von rex, regis</span></div>
+  </div>
+  <div class="goal rv">
+    <span class="eyebrow">Nach diesem Thema kannst du</span>
+    <ul><li>aus jedem Adjektiv den Komparativ bauen,</li><li>ihn richtig deklinieren, egal von welchem Adjektiv er kommt,</li><li>ihn auf drei Arten übersetzen.</li></ul>
+  </div>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">1</span><h3><small>Worum geht's?</small>Die Steigerungs-Treppe</h3></div>
+    <p class="big">Adjektive kann man steigern: <b>tapfer, tapferer, am tapfersten</b>. Im Latein heißen die drei Stufen <b>Positiv</b> (Grundstufe), <b>Komparativ</b> (Mehrstufe) und <b>Superlativ</b> (Meiststufe). Wähle ein Adjektiv und steig die Treppe hinauf.</p>
+    <div class="chips" id="stairChips"></div>
+    <div class="stairs" id="stairs">
+      <div class="stair" style="--h:34%"><small>Positiv</small><span class="la" data-s="0"></span><span class="de" data-d="0"></span></div>
+      <div class="stair" style="--h:64%"><small>Komparativ</small><span class="la" data-s="1"></span><span class="de" data-d="1"></span></div>
+      <div class="stair" style="--h:100%"><small>Superlativ</small><span class="la" data-s="2"></span><span class="de" data-d="2"></span></div>
+    </div>
+    <div class="box merke"><b class="t">Merke</b><span>In diesem Thema geht es um die mittlere Stufe. Der Superlativ bekommt ein eigenes Thema.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">2</span><h3><small>Bauplan</small>Stamm plus -ior</h3></div>
+    <p>Der Komparativ wird bei <b>allen</b> Adjektiven gleich gebaut, egal ob a/o-Deklination oder 3. Deklination. So findest du den Stamm: Nimm den <b>2. Fall</b> und streich die Endung weg. Dann hängst du an:</p>
+    <div class="pairs"><div><span class="la">-ior</span><small>männlich und weiblich</small></div><div><span class="la">-ius</span><small>sächlich</small></div></div>
+    <p class="small">Der Stamm-Finder zeigt es dir. Wähle ein Adjektiv.</p>
+    <div class="chips" id="finderChips"></div>
+    <div class="finder" id="finder" aria-live="polite">
+      <div class="frow"><span>2. Fall</span><span class="la" id="fGen"></span></div>
+      <div class="frow r2"><span>Stamm</span><span class="la" id="fStem"></span></div>
+      <div class="frow r3"><span>Komparativ</span><span class="la" id="fComp"></span></div>
+    </div>
+    <div class="box falle"><b class="t">Falle</b><span>Bei <span class="la">pulcher</span> und <span class="la">acer</span> verschwindet das <span class="la">e</span>: <span class="la">pulchr-ior</span>, <span class="la">acr-ior</span>. Deshalb immer den 2. Fall nehmen, nie den 1. Fall.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">3</span><h3><small>Die Endungen</small>Immer 3. Deklination</h3></div>
+    <div class="box merke"><b class="t">Das Wichtigste</b><span>Egal, wie das Grundwort dekliniert wird: <b>Jeder Komparativ geht nach der 3. Deklination</b>, und zwar genau wie <span class="la">rex, regis</span>. Aus <span class="la">longus, -a, -um</span> (a/o) wird <span class="la">longior, longioris</span>. Aus <span class="la">fortis, forte</span> (3. Deklination) wird <span class="la">fortior, fortioris</span>.</span></div>
+    <p>Wähle ein Adjektiv. Der Stamm ändert sich, die gelben Endungen bleiben immer dieselben.</p>
+    <div class="chips" id="kompChips"></div>
+    <div class="tbl-wrap"><table class="tbl" id="kompTable"></table></div>
+    <div class="box tipp"><b class="t">Falls du die Adjektive der 3. Deklination schon kennst</b><span>Bei <span class="la">fortis</span> gibt es drei Besonderheiten: <span class="la">-i</span> im 6. Fall Singular, <span class="la">-ium</span> im 2. Fall Plural, <span class="la">-ia</span> im Neutrum Plural. Beim Komparativ gelten sie <b>nicht</b>. Er nimmt die normalen Endungen <span class="la">-e, -um, -a</span>.</span></div>
+    <p class="small">Verwechslungsgefahr: dieselbe Stelle, links das Grundwort, rechts sein Komparativ.</p>
+    <div class="duel">
+      <div class="drow"><div class="head">fortis</div><span></span><div class="head">fortior</div></div>
+      <div class="drow"><div><span class="la">fort<span class="end">i</span></span><small>6. Fall Sg.</small></div><span class="vs">vs.</span><div><span class="la">fortior<span class="end">e</span></span><small>6. Fall Sg.</small></div></div>
+      <div class="drow"><div><span class="la">fort<span class="end">ium</span></span><small>2. Fall Pl.</small></div><span class="vs">vs.</span><div><span class="la">fortior<span class="end">um</span></span><small>2. Fall Pl.</small></div></div>
+      <div class="drow"><div><span class="la">fort<span class="end">ia</span></span><small>n. Pl.</small></div><span class="vs">vs.</span><div><span class="la">fortior<span class="end">a</span></span><small>n. Pl.</small></div></div>
+    </div>
+    <div class="box falle"><b class="t">Falle: -ius ist nicht o-Deklination</b><span><span class="la">longius</span> oder <span class="la">fortius</span> sieht aus wie <span class="la">servus</span>, ist aber der <b>1. oder 4. Fall Neutrum Singular</b> des Komparativs: <span class="la">iter longius</span>, ein längerer Weg.</span><div class="orig"><span class="la">Citius, altius, fortius.</span><span class="de">Schneller, höher, stärker. Hier als Adverbien, die genau so aussehen wie dieses Neutrum.</span><cite>Olympisches Motto</cite></div></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">4</span><h3><small>Übersetzen</small>Der Übersetzungs-Regler</h3></div>
+    <p>Ein lateinischer Komparativ hat drei mögliche Übersetzungen. Welche passt, hängt davon ab, ob im Satz ein <b>Vergleich</b> steht.</p>
+    <div class="dial" data-dial="komp">
+      <div class="chips"><button type="button" aria-pressed="true" data-m="0">ohne Vergleich</button><button type="button" aria-pressed="false" data-m="1">mit Vergleich</button></div>
+      <div class="sent"></div>
+      <div class="opts"></div>
+    </div>
+    <div class="box tipp"><b class="t">Faustregel</b><span>Mit <span class="la">quam</span> oder einem Vergleich im Satz: <b>echter Komparativ</b> („länger als“). Ohne Vergleich: meist <b>„ziemlich“</b> oder <b>„(allzu)“</b>, je nachdem, was der Zusammenhang sagt.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">5</span><h3><small>Selbsttest</small>Sitzt es?</h3></div>
+    <form class="quiz" data-quiz="komp" onsubmit="return false"></form>
+    <p class="score" data-score="komp"></p>
+  </article>
+
+  <aside class="spick rv">
+    <span class="eyebrow" style="color:var(--gold)">Spickzettel</span>
+    <h3>Komparativ, <em>die Mehrstufe</em></h3>
+    <ol>
+      <li>Stamm = 2. Fall ohne Endung, dann <span class="la">-<span class="end">ior</span></span> (m./f.) oder <span class="la">-<span class="end">ius</span></span> (n.).</li>
+      <li>Endungen wie <span class="la">rex</span>: <span class="la">-<span class="end">e</span></span> im 6. Sg., <span class="la">-<span class="end">um</span></span> im 2. Pl., <span class="la">-<span class="end">a</span></span> im n. Pl.</li>
+      <li><span class="la">-ius</span> = Neutrum Singular, keine o-Deklination.</li>
+      <li>Mit Vergleich: „-er als“. Ohne: „ziemlich“ oder „allzu“.</li>
+    </ol>
+  </aside>
+</section>
+
+<!-- ================= III. SUPERLATIV ================= -->
+<section class="topic" id="superlativ" hidden>
+  <div class="topic-hero">
+    <span class="eyebrow">Thema III · Adjektive</span>
+    <h2>Superlativ<span>die Meiststufe</span></h2>
+    <div class="meta"><span class="chip">ca. 12 Minuten</span><span class="chip">Vorwissen: Komparativ</span></div>
+  </div>
+  <div class="goal rv">
+    <span class="eyebrow">Nach diesem Thema kannst du</span>
+    <ul><li>den Superlativ bilden, inklusive der zwei Sonderfälle,</li><li>ihn mit „am ...sten“ oder „sehr“ übersetzen,</li><li>die fünf wichtigsten unregelmäßigen Steigerungen erkennen.</li></ul>
+  </div>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">1</span><h3><small>Grundregel</small>Stamm plus -issimus</h3></div>
+    <p class="big">Der Superlativ entsteht aus demselben Stamm wie der Komparativ. Statt <span class="la">-ior</span> kommt <span class="la">-issimus, -a, -um</span> dazu.</p>
+    <div class="pairs"><div><span class="la">long<span class="end">issimus</span></span><small>longus: der längste, sehr lang</small></div><div><span class="la">fort<span class="end">issimus</span></span><small>fortis: der tapferste, sehr tapfer</small></div><div><span class="la">ingent<span class="end">issimus</span></span><small>ingens: der gewaltigste, sehr gewaltig</small></div></div>
+    <div class="box merke"><b class="t">Merke</b><span>Jeder Superlativ geht nach der <b>a/o-Deklination</b>, wie <span class="la">magnus, -a, -um</span>. Auch wenn das Adjektiv selbst zur 3. Deklination gehört: <span class="la">fortis</span> wird zu <span class="la">fortissimus, fortissima, fortissimum</span>.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">2</span><h3><small>Sonderfälle</small>Die Superlativ-Weiche</h3></div>
+    <p>Zwei kleine Gruppen biegen ab. Tippe ein Adjektiv an und schau, auf welches Gleis es fährt.</p>
+    <div class="switch">
+      <span class="eyebrow">Superlativ-Weiche</span>
+      <div class="chips" id="swChips"></div>
+      <svg viewBox="0 0 340 190" aria-hidden="true" id="swSvg">
+        <g fill="none" stroke-linecap="round">
+          <path id="sw0" d="M14 95 H118 C162 95 172 35 216 35 H326" stroke="rgba(244,246,250,.25)" stroke-width="7"/>
+          <path id="sw1" d="M14 95 H326" stroke="rgba(244,246,250,.25)" stroke-width="7"/>
+          <path id="sw2" d="M14 95 H118 C162 95 172 155 216 155 H326" stroke="rgba(244,246,250,.25)" stroke-width="7"/>
+          <path id="swHi" d="M14 95 H326" stroke="#C29A42" stroke-width="7" stroke-dasharray="0 1000"/>
+        </g>
+        <text x="326" y="20" text-anchor="end" fill="#F4F6FA" font-family="Montserrat,sans-serif" font-size="13" font-weight="700">-issimus</text>
+        <text x="326" y="80" text-anchor="end" fill="#F4F6FA" font-family="Montserrat,sans-serif" font-size="13" font-weight="700">-errimus</text>
+        <text x="326" y="180" text-anchor="end" fill="#F4F6FA" font-family="Montserrat,sans-serif" font-size="13" font-weight="700">-illimus</text>
+        <text x="118" y="122" text-anchor="middle" fill="#B9C4D8" font-family="Montserrat,sans-serif" font-size="10" letter-spacing="1.5">WEICHE</text>
+        <circle id="swDot" cx="14" cy="95" r="9" fill="#C29A42" stroke="#fff" stroke-width="2"/>
+      </svg>
+      <div class="res" aria-live="polite"><span class="la" id="swForm"></span><small id="swWhy"></small></div>
+    </div>
+    <div class="box merke"><b class="t">Die zwei Abzweigungen</b>
+      <span>① Endet der 1. Fall männlich auf <span class="la">-er</span>: <span class="la">-<span class="end">errimus</span></span>. <span class="la">pulcher</span> wird <span class="la">pulcherrimus</span>, <span class="la">acer</span> wird <span class="la">acerrimus</span>.</span>
+      <span>② Genau <b>sechs</b> Adjektive auf <span class="la">-ilis</span> bilden <span class="la">-<span class="end">illimus</span></span>. Merk sie dir als drei Paare: <span class="la">facilis, difficilis</span> (leicht, schwierig) · <span class="la">similis, dissimilis</span> (ähnlich, unähnlich) · <span class="la">gracilis, humilis</span> (schlank, niedrig).</span>
+    </div>
+    <div class="box falle"><b class="t">Falle</b><span>Alle anderen Adjektive auf <span class="la">-ilis</span> fahren geradeaus, zum Beispiel <span class="la">utilis</span> (nützlich) und <span class="la">nobilis</span> (vornehm, berühmt): <span class="la">utilissimus, nobilissimus</span>.</span><div class="orig"><span class="la">Apud Helvetios longe nobil<span class="end">issimus</span> fuit [...] Orgetorix.</span><span class="de">Bei den Helvetiern war Orgetorix bei weitem der Vornehmste.</span><cite>Caesar, De bello Gallico 1,2</cite></div></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">3</span><h3><small>Übersetzen</small>„am ...sten“ oder „sehr“?</h3></div>
+    <p>Hier gibt es keine starre Regel, nur eine Faustregel. Wird ausdrücklich mit einer Gruppe verglichen, nimmst du den echten Superlativ. Ohne Vergleichsgruppe klingt „sehr“ meist natürlicher, man nennt das <b>Elativ</b>. Oft passt aber beides, dann entscheidet der Zusammenhang.</p>
+    <div class="dial" data-dial="sup">
+      <div class="chips"><button type="button" aria-pressed="true" data-m="0">ohne Vergleichsgruppe</button><button type="button" aria-pressed="false" data-m="1">mit Vergleichsgruppe</button></div>
+      <div class="sent"></div>
+      <div class="opts"></div>
+    </div>
+    <div class="box tipp"><b class="t">Signal</b><span>Steht ein 2. Fall Plural dabei, etwa <span class="la">omnium</span> (von allen), wird verglichen: echter Superlativ. Im Zweifel probier beide Übersetzungen und nimm die, die im Deutschen natürlicher klingt.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">4</span><h3><small>Ausnahmen</small>Die Unregelmäßigen</h3></div>
+    <p>Fünf Adjektive halten sich an gar keine Regel. Du kennst sie trotzdem schon, weil sie in vielen deutschen und englischen Wörtern stecken. Dreh die Karten um.</p>
+    <div class="flipgrid" id="irr"></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">5</span><h3><small>Selbsttest</small>Sitzt es?</h3></div>
+    <form class="quiz" data-quiz="sup" onsubmit="return false"></form>
+    <p class="score" data-score="sup"></p>
+  </article>
+
+  <aside class="spick rv">
+    <span class="eyebrow" style="color:var(--gold)">Spickzettel</span>
+    <h3>Superlativ, <em>die Meiststufe</em></h3>
+    <ol>
+      <li>Stamm + <span class="la">-<span class="end">issimus, -a, -um</span></span>, immer a/o-Deklination.</li>
+      <li>Auf <span class="la">-er</span>: <span class="la">-<span class="end">errimus</span></span>. Sechs auf <span class="la">-ilis</span>: <span class="la">-<span class="end">illimus</span></span>.</li>
+      <li>Mit Vergleichsgruppe: „am ...sten“. Ohne: „sehr“.</li>
+      <li>Unregelmäßig: <span class="la">optimus, pessimus, maximus, minimus, plurimi</span>.</li>
+    </ol>
+  </aside>
+</section>
+
+<!-- ================= IV. VERGLEICHSABLATIV ================= -->
+<section class="topic" id="vergleich" hidden>
+  <div class="topic-hero">
+    <span class="eyebrow">Thema IV · Satzbau</span>
+    <h2>Vergleichsablativ<span>Ablativus comparationis</span></h2>
+    <div class="meta"><span class="chip">ca. 12 Minuten</span><span class="chip">Vorwissen: Komparativ</span></div>
+  </div>
+  <div class="goal rv">
+    <span class="eyebrow">Nach diesem Thema kannst du</span>
+    <ul><li>die zwei lateinischen Arten zu vergleichen erkennen,</li><li>verstehen, warum ausgerechnet der 6. Fall vergleicht,</li><li>einen Vergleichsablativ in vier Schritten übersetzen.</li></ul>
+  </div>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">1</span><h3><small>Worum geht's?</small>Zwei Wege zum „als“</h3></div>
+    <p class="big">Im Deutschen vergleichen wir mit „als“: <b>Der Elefant ist schwerer als das Pferd.</b> Das Latein hat dafür zwei Möglichkeiten. Beide bedeuten genau dasselbe.</p>
+    <div class="ex"><span class="la">Elephantus gravior est <b>quam equus</b>.</span><span class="de"><b>Weg 1, mit quam:</b> quam heißt „als“. Das Verglichene (equus) steht im selben Fall wie das, womit es verglichen wird (elephantus), hier im 1. Fall.</span></div>
+    <div class="ex"><span class="la">Elephantus <b>equo</b> gravior est.</span><span class="de"><b>Weg 2, ohne quam:</b> Das Verglichene steht im 6. Fall (equo), meist direkt vor dem Komparativ. Das „als“ steckt in der Endung.</span></div>
+    <div class="box merke"><b class="t">Merke</b><span>Weg 2 heißt <b>Vergleichsablativ</b>, lateinisch Ablativus comparationis. Er ist einfach eine kürzere Art zu sagen, was <span class="la">quam</span> auch sagt.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">2</span><h3><small>Verstehen</small>Warum gerade der 6. Fall?</h3></div>
+    <p class="big">Der 6. Fall bedeutet oft „von ... her“ oder „von ... aus“. Genau so funktioniert der Vergleich: Man stellt sich auf das Pferd und schaut <b>von dort aus</b> auf den Elefanten.</p>
+    <div class="ex"><span class="la">Elephantus equo gravior est.</span><span class="de">Wörtlich: Der Elefant ist, vom Pferd aus gesehen, schwerer.<br>Auf Deutsch: Der Elefant ist schwerer als das Pferd.</span></div>
+    <div class="box tipp"><b class="t">Eselsbrücke</b><span>Im Kopf „vom ... aus gesehen“, auf dem Papier „als“.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">3</span><h3><small>Übersetzen</small>Schritt für Schritt</h3></div>
+    <p>So knackst du jeden Vergleichsablativ in vier Schritten. Tippe auf „Nächster Schritt“ und schau zu, wie die Übersetzung entsteht.</p>
+    <div class="stepper" id="stepper">
+      <div class="chips" id="stepChips"></div>
+      <div class="sent" id="stepSent"></div>
+      <div class="stepinfo" aria-live="polite"><b class="s" id="stepLabel"></b><span id="stepText"></span><span class="de" id="stepDe"></span></div>
+      <div class="navrow"><button type="button" class="pill" id="stepReset">Von vorn</button><span class="dots" id="stepDots"></span><button type="button" class="pill" id="stepNext">Nächster Schritt &rarr;</button></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--tint);box-shadow:inset 0 -2px 0 var(--navy)"></i>Komparativ</span><span><i style="background:var(--gold-soft);box-shadow:inset 0 -2px 0 var(--gold)"></i>Vergleichsablativ</span><span><i style="background:var(--bg);box-shadow:inset 0 0 0 1px var(--line)"></i>Wer verglichen wird</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">4</span><h3><small>Sehen</small>Die Vergleichs-Waage</h3></div>
+    <p>Schalte zwischen den beiden Wegen um. Der Satz verwandelt sich, die Bedeutung bleibt gleich. Die Messlatte misst genau die Eigenschaft, die im Komparativ steckt, und zeigt, wer <b>mehr davon</b> hat.</p>
+    <div class="scale" id="scale">
+      <span class="eyebrow">Vergleichs-Messlatte</span>
+      <div class="prop" id="vProp" aria-live="polite"></div>
+      <svg viewBox="0 0 320 178" aria-hidden="true">
+        <path d="M24 146 H296" stroke="rgba(244,246,250,.35)" stroke-width="2" stroke-linecap="round"/>
+        <rect class="bar" id="barL" x="60" y="16" width="70" height="130" rx="8" fill="#C29A42"/>
+        <rect class="bar" id="barR" x="190" y="16" width="70" height="130" rx="8" fill="rgba(244,246,250,.32)"/>
+        <text id="nameL" x="95" y="170" text-anchor="middle" fill="#F4F6FA" font-family="Cormorant Garamond,serif" font-style="italic" font-weight="600" font-size="20"></text>
+        <text id="nameR" x="225" y="170" text-anchor="middle" fill="#F4F6FA" font-family="Cormorant Garamond,serif" font-style="italic" font-weight="600" font-size="20"></text>
+      </svg>
+      <div class="morph" aria-live="polite">
+        <small id="mLabel"></small>
+        <div class="mline" id="mLine"></div>
+        <div class="de" id="mDe"></div>
+      </div>
+      <div class="navrow">
+        <div class="chips" style="gap:6px"><button type="button" class="pill" id="vQuam" aria-pressed="true">mit quam</button><button type="button" class="pill" id="vAbl" aria-pressed="false">mit Ablativ</button></div>
+        <span class="chip" id="vCount"></span>
+        <button type="button" class="pill" id="vNext">Nächster &rarr;</button>
+      </div>
+    </div>
+    <div class="box merke"><b class="t">Merke</b><span>Wer im 1. Fall vor dem Komparativ steht, hat immer <b>mehr</b> von der Eigenschaft. Bei <span class="la">levior</span> ist das die Leichtigkeit: Die Maus gewinnt.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">5</span><h3><small>Erkennen</small>Ablativ plus Komparativ</h3></div>
+    <div class="box merke"><b class="t">Merke</b><span>Steht ein 6. Fall direkt neben einem Komparativ und gibt es kein <span class="la">quam</span>, dann übersetze den 6. Fall mit <b>„als“</b>.</span></div>
+    <div class="orig"><span class="la"><span class="end">Luce</span> sunt clariora nobis tua consilia omnia.</span><span class="de">Klarer als das Licht sind uns alle deine Pläne.</span><cite>Cicero, Erste Rede gegen Catilina 6</cite></div>
+    <div class="orig"><span class="la">Nihil est <span class="end">virtute</span> amabilius.</span><span class="de">Nichts ist liebenswerter als die Tugend.</span><cite>Cicero, Laelius 28</cite></div>
+    <div class="box falle"><b class="t">Falle</b><span>Nicht jeder 6. Fall vergleicht. Nur wenn ein Komparativ daneben steht, ist das „als“ gemeint. In <span class="la">Miles forti animo pugnavit</span> steht kein Komparativ, also gibt es keinen Vergleich.</span></div>
+    <div class="box tipp"><b class="t">Gut zu wissen: quam + Superlativ</b><span><span class="la">quam</span> vor einem Superlativ heißt <b>„möglichst“</b>: <span class="la">Milites quam fortissimi esse debent.</span> Soldaten sollen möglichst tapfer sein.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">6</span><h3><small>Selbsttest</small>Sitzt es?</h3></div>
+    <form class="quiz" data-quiz="vgl" onsubmit="return false"></form>
+    <p class="score" data-score="vgl"></p>
+  </article>
+
+  <aside class="spick rv">
+    <span class="eyebrow" style="color:var(--gold)">Spickzettel</span>
+    <h3>Vergleich <em>mit „als“</em></h3>
+    <ol>
+      <li>Mit <span class="la">quam</span>, beide im gleichen Fall: <span class="la">gravior quam equus</span>.</li>
+      <li>Ohne <span class="la">quam</span>: das Verglichene im 6. Fall, meist vor dem Komparativ: <span class="la">equo gravior</span>.</li>
+      <li>Im Kopf „vom Pferd aus gesehen“, auf dem Papier „als das Pferd“.</li>
+      <li>Vier Schritte: Komparativ finden, quam suchen, 6. Fall suchen, mit „als“ zusammensetzen.</li>
+      <li><span class="la">quam</span> + Superlativ = „möglichst“.</li>
+    </ol>
+  </aside>
+</section>
+
+<!-- ================= V. APPOSITION ================= -->
+<section class="topic" id="apposition" hidden>
+  <div class="topic-hero">
+    <span class="eyebrow">Thema V · Satzbau</span>
+    <h2>Apposition<span>der Beisatz</span></h2>
+    <div class="meta"><span class="chip">ca. 8 Minuten</span><span class="chip">Vorwissen: die Fälle</span></div>
+  </div>
+  <div class="goal rv">
+    <span class="eyebrow">Nach diesem Thema kannst du</span>
+    <ul><li>eine Apposition im Satz finden,</li><li>sie im richtigen deutschen Fall übersetzen.</li></ul>
+  </div>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">1</span><h3><small>Worum geht's?</small>Ein Namensschild für ein Nomen</h3></div>
+    <p class="big">Eine Apposition ist ein Nomen, das ein anderes Nomen <b>genauer erklärt</b>, so wie ein Namensschild. Das kennst du aus dem Deutschen:</p>
+    <div class="ex"><span>Augustus, <b>der erste römische Kaiser</b>, regierte über 40 Jahre.</span><span class="de">Wer ist Augustus? Der erste römische Kaiser. Das ist die Apposition.</span></div>
+    <div class="box merke"><b class="t">Merke</b><span>Die Apposition steht im <b>selben Fall</b> wie das Nomen, das sie erklärt. Oft wird sie durch Beistriche abgetrennt.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">2</span><h3><small>Finden</small>Die Satz-Lupe</h3></div>
+    <p>Lies den Satz und überleg, welches Wort ein anderes erklärt. Dann tippe auf „Lupe“.</p>
+    <div class="lupe" data-lupe="app">
+      <div class="sent" aria-live="polite"></div>
+      <p class="sent-de"></p>
+      <div class="legend"><span><i style="background:var(--tint);box-shadow:inset 0 0 0 1px var(--navy)"></i>Bezugswort</span><span><i style="background:var(--gold-soft);box-shadow:inset 0 -2px 0 var(--gold)"></i>Apposition</span></div>
+      <div class="navrow"><button type="button" class="pill" data-act="lit" aria-pressed="false">Lupe</button><span class="chip" data-count></span><button type="button" class="pill" data-act="next">Nächster Satz &rarr;</button></div>
+    </div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">3</span><h3><small>Übersetzen</small>Der Fall wandert mit</h3></div>
+    <p>Im Deutschen musst du die Apposition in denselben Fall setzen wie ihr Bezugswort. Steht das Bezugswort im 3. Fall, steht auch der Beisatz im 3. Fall.</p>
+    <div class="ex"><span class="la">Senatus Ciceroni, viro claro, gratias egit.</span><span class="de">Der Senat dankte <b>Cicero, einem berühmten Mann</b>.</span></div>
+    <div class="box falle"><b class="t">Falle</b><span>Nicht „Cicero, ein berühmter Mann“ schreiben, wenn Cicero im 3. Fall steht. Der Beisatz muss mitgehen: „Cicero, <b>einem</b> berühmten Mann“.</span></div>
+    <div class="box tipp"><b class="t">Profi-Tipp</b><span>Bei Namen von Städten und Personen steht die Apposition oft direkt davor oder dahinter, auch ohne Beistriche.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">4</span><h3><small>Selbsttest</small>Sitzt es?</h3></div>
+    <form class="quiz" data-quiz="app" onsubmit="return false"></form>
+    <p class="score" data-score="app"></p>
+  </article>
+
+  <aside class="spick rv">
+    <span class="eyebrow" style="color:var(--gold)">Spickzettel</span>
+    <h3>Apposition, <em>der Beisatz</em></h3>
+    <ol>
+      <li>Ein Nomen erklärt ein anderes Nomen.</li>
+      <li>Gleicher Fall wie das Bezugswort, oft zwischen Beistrichen.</li>
+      <li>Im Deutschen den Fall mitnehmen: Er dankte Cicero, <b>einem</b> berühmten Mann.</li>
+    </ol>
+  </aside>
+</section>
+
+<!-- ================= VI. PRÄDIKATIVUM ================= -->
+<section class="topic" id="praedikativum" hidden>
+  <div class="topic-hero">
+    <span class="eyebrow">Thema VI · Satzbau</span>
+    <h2>Prädikativum<span>das Zauberwort „als“</span></h2>
+    <div class="meta"><span class="chip">ca. 10 Minuten</span><span class="chip">Vorwissen: Apposition</span></div>
+  </div>
+  <div class="goal rv">
+    <span class="eyebrow">Nach diesem Thema kannst du</span>
+    <ul><li>ein Prädikativum erkennen,</li><li>es mit „als“ übersetzen,</li><li>es von der Apposition unterscheiden.</li></ul>
+  </div>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">1</span><h3><small>Worum geht's?</small>Ein Wort zu viel?</h3></div>
+    <p class="big">Manchmal steht im Satz ein Nomen oder Adjektiv, das scheinbar übrig bleibt. Es steht im selben Fall wie ein anderes Nomen, sagt aber, <b>in welcher Rolle</b> jemand gerade etwas tut. Das ist ein Prädikativum.</p>
+    <div class="ex"><span class="la">Cicero consul coniurationem detexit.</span><span class="de">Cicero deckte <b>als Konsul</b> eine Verschwörung auf.</span></div>
+    <div class="orig"><span class="la">Socrates <span class="end">primus</span> philosophiam devocavit e caelo.</span><span class="de">Sokrates rief als Erster die Philosophie vom Himmel herab.</span><cite>Cicero, Gespräche in Tusculum 5,10</cite></div>
+    <div class="box merke"><b class="t">Merke</b><span>Ein Prädikativum hängt an einem Nomen <b>und</b> am Prädikat. Fast immer übersetzt du es mit <b>„als“</b>.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">2</span><h3><small>Sehen</small>Die Satz-Lupe</h3></div>
+    <p>Das Prädikativum ist gelb, das Prädikat blau unterstrichen. Achte darauf, dass beide zusammengehören.</p>
+    <div class="lupe" data-lupe="pr">
+      <div class="sent" aria-live="polite"></div>
+      <p class="sent-de"></p>
+      <div class="legend"><span><i style="background:var(--tint);box-shadow:inset 0 0 0 1px var(--navy)"></i>Bezugswort</span><span><i style="background:var(--gold-soft);box-shadow:inset 0 -2px 0 var(--gold)"></i>Prädikativum</span><span><i style="background:var(--tint);box-shadow:inset 0 -2px 0 var(--navy)"></i>Prädikat</span></div>
+      <div class="navrow"><button type="button" class="pill" data-act="lit" aria-pressed="false">Lupe</button><span class="chip" data-count></span><button type="button" class="pill" data-act="next">Nächster Satz &rarr;</button></div>
+    </div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">3</span><h3><small>Unterscheiden</small>Apposition oder Prädikativum?</h3></div>
+    <p>Beide stehen im selben Fall wie ihr Bezugswort. Der Unterschied liegt darin, was sie erklären.</p>
+    <div class="pairs">
+      <div><b>Apposition</b><small>sagt, wer oder was jemand <b>ist</b>, unabhängig von der Handlung. Oft zwischen Beistrichen.</small></div>
+      <div><b>Prädikativum</b><small>sagt, in welcher Rolle jemand <b>gerade handelt</b>. Meist ohne Beistriche, Übersetzung mit „als“.</small></div>
+    </div>
+    <p class="small">Ordne jeden Satz zu.</p>
+    <div class="sorter" id="sorter2"></div>
+    <div class="box tipp"><b class="t">Der „als“-Test</b><span>Setz „als“ ein. Klingt der Satz richtig und sagt er etwas über die Rolle in diesem Moment, ist es ein Prädikativum. Klingt er seltsam, ist es eher eine Apposition.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">4</span><h3><small>Selbsttest</small>Sitzt es?</h3></div>
+    <form class="quiz" data-quiz="pr" onsubmit="return false"></form>
+    <p class="score" data-score="pr"></p>
+  </article>
+
+  <aside class="spick rv">
+    <span class="eyebrow" style="color:var(--gold)">Spickzettel</span>
+    <h3>Prädikativum, <em>das „als“</em></h3>
+    <ol>
+      <li>Ein Nomen oder Adjektiv bleibt im Satz scheinbar übrig.</li>
+      <li>Es steht im Fall seines Bezugsworts und gehört zugleich zum Prädikat.</li>
+      <li>Übersetzung mit „als“: <span class="la">Puer Romam venit, senex rediit.</span> Als Bub kam er nach Rom, als Greis kehrte er zurück.</li>
+      <li>Apposition = wer jemand ist. Prädikativum = welche Rolle jemand gerade hat.</li>
+    </ol>
+  </aside>
+</section>
+
+<!-- ================= VII. RELATIVER ANSCHLUSS ================= -->
+<section class="topic" id="anschluss" hidden>
+  <div class="topic-hero">
+    <span class="eyebrow">Thema VII · Pronomen</span>
+    <h2>Relativer Anschluss<span>qui am Satzanfang</span></h2>
+    <div class="meta"><span class="chip">ca. 10 Minuten</span><span class="chip">Vorwissen: Relativpronomen qui, quae, quod</span></div>
+  </div>
+  <div class="goal rv">
+    <span class="eyebrow">Nach diesem Thema kannst du</span>
+    <ul><li>einen relativen Anschluss erkennen,</li><li>ihn mit „dieser, diese, dieses“ übersetzen,</li><li>ihn von einer Frage und einem normalen Relativsatz unterscheiden.</li></ul>
+  </div>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">1</span><h3><small>Wiederholung</small>qui, quae, quod im Satz</h3></div>
+    <p class="big">Normalerweise leitet <span class="la">qui, quae, quod</span> einen Relativsatz ein. Er steht <b>mitten im Satz</b>, oft zwischen Beistrichen, und wird mit „der, die, das“ übersetzt.</p>
+    <div class="ex"><span class="la">Liber, <b>quem</b> legis, bonus est.</span><span class="de">Das Buch, <b>das</b> du liest, ist gut.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">2</span><h3><small>Das Neue</small>Die Brücke zum vorigen Satz</h3></div>
+    <p>Steht <span class="la">qui, quae, quod</span> dagegen <b>ganz am Anfang eines neuen Satzes</b>, nach einem Punkt oder Strichpunkt, dann schlägt es eine Brücke zurück in den Satz davor. Tippe auf „Brücke bauen“.</p>
+    <div class="bridge" id="bridge">
+      <div class="bstage" id="bstage"><svg aria-hidden="true"><path id="bpath" d=""/></svg><p id="b1"></p><p id="b2"></p></div>
+      <div class="bde" aria-live="polite"><span id="bdeWrong"></span><span id="bdeRight"></span></div>
+      <div class="navrow"><button type="button" class="pill" id="bBtn" aria-pressed="false">Brücke bauen</button><span class="chip" id="bCount"></span><button type="button" class="pill" id="bNext">Nächster &rarr;</button></div>
+    </div>
+    <div class="box merke"><b class="t">Merke</b><span>Relativer Anschluss: <span class="la">qui, quae, quod</span> am Satzanfang wird mit <b>„dieser, diese, dieses“</b> übersetzt, manchmal auch mit „er, sie, es“. Nicht mit „welcher“!</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">3</span><h3><small>Die Form</small>Woher kommt der Fall?</h3></div>
+    <p>Wie beim Relativpronomen gilt eine Zweiteilung:</p>
+    <div class="pairs">
+      <div><b>Geschlecht und Zahl</b><small>kommen vom Bezugswort im Satz davor. In <span class="la">Romulus urbem condidit. Quam Romam appellavit.</span> ist <span class="la">urbem</span> weiblich Singular, also <span class="la">quam</span>.</small></div>
+      <div><b>Fall</b><small>kommt aus dem eigenen Satz. <span class="la">Quam Romam appellavit</span>: Er nannte <b>wen</b> Rom? Also 4. Fall.</small></div>
+    </div>
+    <div class="box tipp"><b class="t">2. Fall</b><span><span class="la">cuius, quorum, quarum</span> übersetzt du am besten mit „dessen, deren“ oder „von diesen“: <span class="la">Quorum clarissimus erat Socrates.</span> Der berühmteste von ihnen war Sokrates.</span></div>
+    <div class="box tipp"><b class="t">Feste Wendungen</b><span>Manche relativen Anschlüsse kommen so oft vor, dass du sie wie Vokabeln lernen kannst: <span class="la">qua de causa</span> aus diesem Grund, <span class="la">quam ob rem</span> deshalb, <span class="la">quo facto</span> danach.</span></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">4</span><h3><small>Unterscheiden</small>Der qu-Detektor</h3></div>
+    <p>Drei Dinge können mit <span class="la">qu-</span> beginnen. Schau zuerst ans <b>Satzende</b>: Fragezeichen? Dann ist es eine Frage. Dann auf die <b>Stellung</b>: mitten im Satz ein Relativsatz, am Satzanfang ein relativer Anschluss. Nach jeder Antwort siehst du die Übersetzung.</p>
+    <div class="sorter" id="sorter3"></div>
+  </article>
+
+  <article class="step rv">
+    <div class="step-head"><span class="num">5</span><h3><small>Selbsttest</small>Sitzt es?</h3></div>
+    <form class="quiz" data-quiz="ra" onsubmit="return false"></form>
+    <p class="score" data-score="ra"></p>
+  </article>
+
+  <aside class="spick rv">
+    <span class="eyebrow" style="color:var(--gold)">Spickzettel</span>
+    <h3>Relativer <em>Anschluss</em></h3>
+    <ol>
+      <li><span class="la">qui, quae, quod</span> am Satzanfang, kein Fragezeichen.</li>
+      <li>Übersetzung: „dieser, diese, dieses“ oder „er, sie, es“.</li>
+      <li>Geschlecht und Zahl vom Bezugswort, Fall aus dem eigenen Satz.</li>
+      <li>Fragezeichen am Ende: dann ist es eine Frage.</li>
+    </ol>
+  </aside>
+</section>
+</main>
+
+<footer class="wrap">Eigene Erklärungen und Beispielsätze. Fälle nach österreichischer Zählung: 1. Nominativ, 2. Genitiv, 3. Dativ, 4. Akkusativ, 5. Vokativ, 6. Ablativ.</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+  function $(id){return document.getElementById(id)}
+  function pop(el){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop')}
+
+  /* ===== Themen und Navigation ===== */
+  var T=[
+    ['adjektive','I','Adjektive der 3. Deklination','Adjektive'],
+    ['komparativ','II','Komparativ','Adjektive'],
+    ['superlativ','III','Superlativ','Adjektive'],
+    ['vergleich','IV','Vergleichsablativ','Satzbau'],
+    ['apposition','V','Apposition','Satzbau'],
+    ['praedikativum','VI','Prädikativum','Satzbau'],
+    ['anschluss','VII','Relativer Anschluss','Pronomen']
+  ];
+  var groups=[];T.forEach(function(t){if(groups.indexOf(t[3])<0)groups.push(t[3])});
+  function listHtml(cls,wrapCls){return groups.map(function(g){return '<div class="'+wrapCls+'"><span>'+g+'</span><div class="'+(cls==='icard'?'icards':'')+'" style="'+(cls==='sitem'?'display:grid;gap:6px':'')+'">'+T.filter(function(t){return t[3]===g}).map(function(t){return '<button type="button" class="'+cls+'" data-go="'+t[0]+'"><i>'+t[1]+'</i><b>'+esc(t[2])+'</b></button>'}).join('')+'</div></div>'}).join('')}
+  $('index').innerHTML=listHtml('icard','igroup');
+  $('sheetList').innerHTML=listHtml('sitem','sgroup');
+  var cur=0,sheet=$('sheet'),menuBtn=$('menuBtn');
+  function addNext(){T.forEach(function(t,i){var sec=$(t[0]);var nx=document.createElement('nav');nx.className='next';nx.setAttribute('aria-label','Weiter');
+    nx.innerHTML=(i>0?'<button type="button" data-go="'+T[i-1][0]+'"><small>&larr; Zurück</small><b>'+esc(T[i-1][2])+'</b></button>':'<span></span>')+(i<T.length-1?'<button type="button" class="fw" data-go="'+T[i+1][0]+'"><small>Weiter &rarr;</small><b>'+esc(T[i+1][2])+'</b></button>':'');
+    sec.appendChild(nx)})}
+  addNext();
+  function show(id,scroll){
+    var i=T.findIndex(function(t){return t[0]===id});if(i<0)i=0;cur=i;
+    T.forEach(function(t,j){$(t[0]).hidden=j!==i});
+    $('curNum').textContent=T[i][1];$('curTitle').textContent=T[i][2];
+    $('prevBtn').disabled=i===0;$('nextBtn').disabled=i===T.length-1;
+    document.querySelectorAll('[data-go]').forEach(function(b){if(b.classList.contains('icard')||b.classList.contains('sitem'))b.setAttribute('aria-current',b.dataset.go===T[i][0])});
+    if(scroll){var y=$('bar').getBoundingClientRect().top+window.scrollY;window.scrollTo({top:y,behavior:reduce?'auto':'smooth'})}
+    observe();
+    if(T[i][0]==='anschluss')setTimeout(drawBridge,50);
+  }
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(!b)return;closeSheet();show(b.dataset.go,true)});
+  $('prevBtn').addEventListener('click',function(){if(cur>0)show(T[cur-1][0],true)});
+  $('nextBtn').addEventListener('click',function(){if(cur<T.length-1)show(T[cur+1][0],true)});
+  function openSheet(){sheet.hidden=false;menuBtn.setAttribute('aria-expanded','true');$('sheetClose').focus()}
+  function closeSheet(){if(sheet.hidden)return;sheet.hidden=true;menuBtn.setAttribute('aria-expanded','false');menuBtn.focus({preventScroll:true})}
+  menuBtn.addEventListener('click',openSheet);$('sheetClose').addEventListener('click',closeSheet);
+  sheet.addEventListener('click',function(e){if(e.target===sheet)closeSheet()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSheet()});
+
+  /* ===== Einblenden ===== */
+  var io='IntersectionObserver' in window?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');if(e.target.querySelector('.stairs'))e.target.querySelector('.stairs').classList.add('grown');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'}):null;
+  function observe(){document.querySelectorAll('.topic:not([hidden]) .rv:not(.in)').forEach(function(el){if(io)io.observe(el);else{el.classList.add('in');var s=el.querySelector('.stairs');if(s)s.classList.add('grown')}})}
+
+  /* ===== Bausteine ===== */
+  function sorter(el,items,labels,wide){
+    el.innerHTML=items.map(function(w,i){return '<div class="srow'+(wide?' wide':'')+'" data-i="'+i+'"><span class="la">'+esc(w[0])+'</span><span class="btns">'+labels.map(function(l){return '<button type="button" data-v="'+l[0]+'">'+esc(l[1])+'</button>'}).join('')+'</span><span class="fb"></span></div>'}).join('');
+    el.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var r=b.closest('.srow'),w=items[+r.dataset.i],ok=b.dataset.v===w[1];
+      r.classList.remove('ok','no');void r.offsetWidth;r.classList.add(ok?'ok':'no');
+      r.querySelector('.fb').innerHTML=(ok?'&#10003; ':'&#10007; ')+esc(w[2])+(w[3]?'<span class="tr">Übersetzung: '+esc(w[3])+'</span>':'')});
+  }
+  function chipGroup(el,items,onPick,def){
+    el.innerHTML=items.map(function(it,i){return '<button type="button" aria-pressed="'+(i===def)+'" data-i="'+i+'">'+esc(it)+'</button>'}).join('');
+    el.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;el.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});onPick(+b.dataset.i)});
+  }
+
+  /* ===== I. Adjektive ===== */
+  sorter($('sorter'),[
+    ['fortis, forte','3','2. Fall fortis: 3. Deklination.'],
+    ['magnus, -a, -um','ao','-us, -a, -um: a/o-Deklination.'],
+    ['felix, felicis','3','2. Fall auf -is: 3. Deklination.'],
+    ['miser, -era, -erum','ao','Wie pulcher: a/o-Deklination.'],
+    ['acer, acris, acre','3','2. Fall acris: 3. Deklination, dreiendig.'],
+    ['ingens, ingentis','3','2. Fall auf -is: 3. Deklination, einendig.'],
+    ['longus, -a, -um','ao','-us, -a, -um: a/o-Deklination.'],
+    ['omnis, omne','3','Wie fortis: 3. Deklination.']
+  ],[['ao','a/o'],['3','3. Dekl.']]);
+  var famText=[
+    'Einendig: Im 1. Fall gibt es nur eine Form für alle drei Geschlechter. In der Vokabelangabe steht deshalb der 2. Fall dabei: felix, felicis (glücklich), ingens, ingentis (gewaltig).',
+    'Zweiendig: eine Form für männlich und weiblich, eine eigene für sächlich. Die größte Familie: fortis, forte (tapfer), omnis, omne (jeder, ganz), brevis, breve (kurz).',
+    'Dreiendig: für jedes Geschlecht eine eigene Form im 1. Fall. Nur eine Handvoll Wörter: acer, acris, acre (scharf, heftig), celer, celeris, celere (schnell).'
+  ];
+  var fams=[].slice.call(document.querySelectorAll('.fam')),fd=$('famdetail');
+  function setFam(i){fams.forEach(function(f,j){f.setAttribute('aria-pressed',i===j)});fd.textContent=famText[i];pop(fd)}
+  fams.forEach(function(f,i){f.addEventListener('click',function(){setFam(i)})});fd.textContent=famText[1];
+
+  var CMP={
+    mf:{h:['rex (m.)','fortis (m./f.)'],sg:[['1.','rex','fort|is'],['2.','reg|is','fort|is'],['3.','reg|i','fort|i'],['4.','reg|em','fort|em'],['6.','reg|e','fort|i',1]],pl:[['1./4.','reg|es','fort|es'],['2.','reg|um','fort|ium',1],['3./6.','reg|ibus','fort|ibus']]},
+    n:{h:['corpus (n.)','forte (n.)'],sg:[['1.','corpus','fort|e'],['2.','corpor|is','fort|is'],['3.','corpor|i','fort|i'],['4.','corpus','fort|e'],['6.','corpor|e','fort|i',1]],pl:[['1./4.','corpor|a','fort|ia',1],['2.','corpor|um','fort|ium',1],['3./6.','corpor|ibus','fort|ibus']]}
+  };
+  function cell(w){var p=w.split('|');return esc(p[0])+(p[1]?'<span class="end">'+esc(p[1])+'</span>':'')}
+  function drawCmp(g){var d=CMP[g];function rows(a){return a.map(function(r){return '<tr><td class="c">'+r[0]+'</td><td class="la">'+cell(r[1])+'</td><td class="la'+(r[3]?' diff':'')+'">'+cell(r[2])+'</td></tr>'}).join('')}
+    $('cmpTable').innerHTML='<thead><tr><th>Fall</th><th>'+d.h[0]+'</th><th>'+d.h[1]+'</th></tr></thead><tbody><tr class="sep"><td colspan="3">Singular</td></tr>'+rows(d.sg)+'<tr class="sep"><td colspan="3">Plural</td></tr>'+rows(d.pl)+'</tbody>';pop($('cmpTable'))}
+  drawCmp('mf');
+  $('cmpGender').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;$('cmpGender').querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});drawCmp(b.dataset.g)});
+  var db=$('diffbtn');db.addEventListener('click',function(){var on=db.getAttribute('aria-pressed')!=='true';db.setAttribute('aria-pressed',on);db.textContent=on?'Unterschiede ausblenden':'Unterschiede zeigen';$('cmpbox').classList.toggle('show-diff',on)});
+
+  var ADJ={fortis:{stem:'fort',nom:{m:'fortis',f:'fortis',n:'forte'}},acer:{stem:'acr',nom:{m:'acer',f:'acris',n:'acre'}},felix:{stem:'felic',nom:{m:'felix',f:'felix',n:'felix'}}};
+  var NOUN={m:{sg:['servus','servi','servo','servum','serve','servo'],pl:['servi','servorum','servis','servos','servi','servis']},f:{sg:['serva','servae','servae','servam','serva','serva'],pl:['servae','servarum','servis','servas','servae','servis']},n:{sg:['donum','doni','dono','donum','donum','dono'],pl:['dona','donorum','donis','dona','dona','donis']}};
+  function aform(a,c,num,g){var A=ADJ[a],s=A.stem;if(num==='sg'){if(c===0||c===4)return A.nom[g];if(c===3)return g==='n'?A.nom.n:s+'em';if(c===1)return s+'is';return s+'i'}if(c===0||c===3||c===4)return s+(g==='n'?'ia':'es');if(c===1)return s+'ium';return s+'ibus'}
+  function split(w,s){return w.indexOf(s)===0&&w.length>s.length?esc(s)+'<b>'+esc(w.slice(s.length))+'</b>':esc(w)}
+  function seg(id,name,opts,def){$(id).innerHTML=opts.map(function(o){return '<input type="radio" name="'+name+'" id="'+name+'-'+o[0]+'" value="'+o[0]+'"'+(o[0]===def?' checked':'')+'><label for="'+name+'-'+o[0]+'">'+o[1]+'</label>'}).join('')}
+  seg('m-adj','madj',[['fortis','<em>fortis</em>'],['acer','<em>acer</em>'],['felix','<em>felix</em>']],'fortis');
+  seg('m-case','mcase',[['0','1.'],['1','2.'],['2','3.'],['3','4.'],['4','5.'],['5','6.']],'5');
+  seg('m-num','mnum',[['sg','Singular'],['pl','Plural']],'sg');
+  seg('m-gen','mgen',[['m','m.'],['f','f.'],['n','n.']],'m');
+  var mach=$('machine');
+  function mval(n){return mach.querySelector('input[name="'+n+'"]:checked').value}
+  function runM(anim){var a=mval('madj'),c=+mval('mcase'),num=mval('mnum'),g=mval('mgen'),w=aform(a,c,num,g),noun=NOUN[g][num][c];
+    $('m-form').innerHTML=split(w,ADJ[a].stem);if(anim)pop($('m-form'));
+    $('m-pair').innerHTML='neben einem Nomen: <span class="la">'+esc(noun)+' '+esc(w)+'</span>';
+    var note='';
+    if(num==='sg'&&c===5)note='6. Fall Singular auf -i, nicht auf -e. Das ist Unterschied ①.';
+    else if(num==='pl'&&c===1)note='2. Fall Plural auf -ium. Das ist Unterschied ②.';
+    else if(num==='pl'&&g==='n'&&(c===0||c===3||c===4))note='Neutrum Plural auf -ia. Das ist Unterschied ③.';
+    else if(num==='pl'&&(c===2||c===5))note='3. und 6. Fall Plural sehen gleich aus. Der Satz entscheidet.';
+    else if(num==='sg'&&c===2)note='Vorsicht: Die gleiche Form ist auch der 6. Fall Singular.';
+    else if(num==='sg'&&g==='n'&&a!=='felix'&&(c===0||c===3||c===4))note='Endung -e heißt hier: Neutrum Singular, 1. oder 4. Fall. Kein Ablativ!';
+    else if(a==='felix'&&num==='sg'&&(c===0||c===4||(c===3&&g==='n')))note='Einendig: Im 1. Fall sehen alle drei Geschlechter gleich aus.';
+    else if(a==='acer'&&num==='sg'&&g==='m'&&(c===0||c===4))note='acer hat im 1. Fall männlich keine Endung, der Stamm ist acr-.';
+    $('m-note').textContent=note}
+  mach.addEventListener('change',function(){runM(true)});runM(false);
+
+  /* ===== II. Komparativ ===== */
+  var ST=[
+    ['longus',['longus','long|ior','long|issimus'],['lang','länger','am längsten']],
+    ['fortis',['fortis','fort|ior','fort|issimus'],['tapfer','tapferer','am tapfersten']],
+    ['acer',['acer','acr|ior','acer|rimus'],['heftig','heftiger','am heftigsten']],
+    ['facilis',['facilis','facil|ior','facil|limus'],['leicht','leichter','am leichtesten']],
+    ['felix',['felix','felic|ior','felic|issimus'],['glücklich','glücklicher','am glücklichsten']]
+  ];
+  function stairSet(i){var d=ST[i];[0,1,2].forEach(function(k){var p=d[1][k].split('|');var el=document.querySelector('#stairs [data-s="'+k+'"]');el.innerHTML=esc(p[0])+(p[1]?'<b>'+esc(p[1])+'</b>':'');document.querySelector('#stairs [data-d="'+k+'"]').textContent=d[2][k];pop(el)})}
+  chipGroup($('stairChips'),ST.map(function(s){return s[0]}),stairSet,1);stairSet(1);
+
+  var KT=[['longus','long'],['pulcher','pulchr'],['fortis','fort'],['felix','felic']];
+  function kompTable(i){var st=KT[i][1];function c(e){return esc(st)+'<span class="end">'+e+'</span>'}
+    function r(f,a,b){return '<tr><td class="c">'+f+'</td>'+(b?'<td class="la">'+c(a)+'</td><td class="la">'+c(b)+'</td>':'<td class="la mid" colspan="2">'+c(a)+'</td>')+'</tr>'}
+    $('kompTable').innerHTML='<thead><tr><th>Fall</th><th>m./f.</th><th>n.</th></tr></thead><tbody><tr class="sep"><td colspan="3">Singular</td></tr>'
+      +r('1.','ior','ius')+r('2.','ioris')+r('3.','iori')+r('4.','iorem','ius')+r('6.','iore')
+      +'<tr class="sep"><td colspan="3">Plural</td></tr>'+r('1./4.','iores','iora')+r('2.','iorum')+r('3./6.','ioribus')+'</tbody>';pop($('kompTable'))}
+  chipGroup($('kompChips'),KT.map(function(k){return k[0]}),kompTable,0);kompTable(0);
+
+  var FI=[['longus','long','i'],['pulcher','pulchr','i'],['fortis','fort','is'],['acer','acr','is'],['ingens','ingent','is'],['felix','felic','is']];
+  var finder=$('finder'),ftimers=[];
+  function finderSet(i){var d=FI[i];ftimers.forEach(clearTimeout);ftimers=[];finder.classList.remove('s1','s2','s3');
+    $('fGen').innerHTML=esc(d[1])+'<span class="cut">'+esc(d[2])+'</span>';
+    $('fStem').innerHTML=esc(d[1])+'-';
+    $('fComp').innerHTML=esc(d[1])+'<span class="add">ior</span> · '+esc(d[1])+'<span class="add">ius</span>';
+    if(reduce){finder.classList.add('s1','s2','s3');return}
+    ftimers.push(setTimeout(function(){finder.classList.add('s1')},250),setTimeout(function(){finder.classList.add('s2')},900),setTimeout(function(){finder.classList.add('s3')},1550))}
+  chipGroup($('finderChips'),FI.map(function(f){return f[0]}),finderSet,0);finderSet(0);
+
+  var DIAL={
+    komp:[
+      {s:'Via <b>longior</b> est.',o:[['ziemlich','Der Weg ist ziemlich lang.',1],['allzu','Der Weg ist (allzu) lang.',1],['echter Komparativ','Der Weg ist länger. Möglich, wenn aus dem Zusammenhang klar ist, womit verglichen wird.',.5]]},
+      {s:'Via per montes <b>longior</b> est <b>quam</b> via per campos.',o:[['ziemlich','Der Weg über die Berge ist ziemlich lang als ... Passt nicht.',0],['allzu','Der Weg über die Berge ist allzu lang als ... Passt nicht.',0],['echter Komparativ','Der Weg über die Berge ist länger als der Weg durch die Ebene.',1]]}
+    ],
+    sup:[
+      {s:'Roma urbs <b>pulcherrima</b> est.',o:[['sehr (Elativ)','Rom ist eine sehr schöne Stadt. Meist die natürlichste Lösung.',1],['echter Superlativ','Rom ist die schönste Stadt. Auch möglich, wenn der Zusammenhang es nahelegt.',.5]]},
+      {s:'Horum <b>omnium</b> <b>fortissimi</b> sunt Belgae.',o:[['sehr (Elativ)','Von diesen allen sind die Belger sehr tapfer. Klingt schief.',0],['echter Superlativ','Von diesen allen sind die Belger die tapfersten. (Caesar, De bello Gallico 1,1)',1]]}
+    ]
+  };
+  document.querySelectorAll('[data-dial]').forEach(function(box){var set=DIAL[box.dataset.dial],sent=box.querySelector('.sent'),opts=box.querySelector('.opts');
+    function draw(m){var d=set[m];sent.innerHTML='<span class="la">'+d.s+'</span>';pop(sent);
+      opts.innerHTML=d.o.map(function(o){var cl=o[2]===1?' on':o[2]?' maybe':'',ic=o[2]===1?'&#10003;':o[2]?'~':'&#10007;',lb=o[2]===1?'passt':o[2]?'auch möglich':'passt nicht';return '<div class="opt'+cl+'"><b>'+ic+'</b><span>'+esc(o[1])+'<small>'+esc(o[0])+' · '+lb+'</small></span></div>'}).join('')}
+    box.querySelector('.chips').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;box.querySelectorAll('.chips button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});draw(+b.dataset.m)});
+    draw(0)});
+
+  /* ===== III. Superlativ: Weiche ===== */
+  var SW=[
+    ['longus',0,'long','issimus','Normalfall: Stamm long- plus -issimus.'],
+    ['fortis',0,'fort','issimus','Normalfall: Stamm fort- plus -issimus.'],
+    ['pulcher',1,'pulcher','rimus','Endet auf -er: an die Form pulcher kommt -rimus.'],
+    ['acer',1,'acer','rimus','Endet auf -er: acer plus -rimus.'],
+    ['miser',1,'miser','rimus','Endet auf -er: miser plus -rimus.'],
+    ['facilis',2,'facil','limus','Einer der sechs auf -ilis: facil- plus -limus.'],
+    ['difficilis',2,'difficil','limus','Einer der sechs auf -ilis: difficil- plus -limus.'],
+    ['similis',2,'simil','limus','Einer der sechs auf -ilis: simil- plus -limus.'],
+    ['utilis',0,'util','issimus','Falle! -ilis, aber nicht unter den sechs: Normalfall.'],
+    ['nobilis',0,'nobil','issimus','Falle! -ilis, aber nicht unter den sechs: Normalfall.'],
+    ['felix',0,'felic','issimus','Normalfall: Stamm felic- plus -issimus.']
+  ];
+  var swDot=$('swDot'),swHi=$('swHi'),swAnim=null;
+  function swGo(i){var d=SW[i],path=$('sw'+d[1]),len=path.getTotalLength();
+    swHi.setAttribute('d',path.getAttribute('d'));
+    $('swForm').innerHTML=esc(d[2])+'<b>'+esc(d[3])+'</b>';$('swWhy').textContent=d[4];pop($('swForm'));
+    if(swAnim)cancelAnimationFrame(swAnim);
+    if(reduce){var p=path.getPointAtLength(len);swDot.setAttribute('cx',p.x);swDot.setAttribute('cy',p.y);swHi.setAttribute('stroke-dasharray',len+' 1000');return}
+    var t0=null,dur=1100;
+    function step(ts){if(!t0)t0=ts;var k=Math.min(1,(ts-t0)/dur),e=1-Math.pow(1-k,3),l=len*e,p=path.getPointAtLength(l);
+      swDot.setAttribute('cx',p.x);swDot.setAttribute('cy',p.y);swHi.setAttribute('stroke-dasharray',l+' 1000');if(k<1)swAnim=requestAnimationFrame(step)}
+    swAnim=requestAnimationFrame(step)}
+  chipGroup($('swChips'),SW.map(function(s){return s[0]}),swGo,-1);
+  $('swForm').innerHTML='<span style="font-size:.6em;color:var(--muted)">Wähle ein Adjektiv</span>';
+
+  var IRR=[
+    ['bonus','gut','melior · optimus','besser · am besten','optimal, Optimist'],
+    ['malus','schlecht','peior · pessimus','schlechter · am schlechtesten','Pessimist'],
+    ['magnus','groß','maior · maximus','größer · am größten','Majorität, Maximum, Major'],
+    ['parvus','klein','minor · minimus','kleiner · am kleinsten','Minorität, minimal, Minimum'],
+    ['multi','viele','plures · plurimi','mehr · die meisten','Plural, Pluralismus']
+  ];
+  $('irr').innerHTML=IRR.map(function(r){return '<button type="button" class="flip" aria-pressed="false"><span class="in"><span class="face front"><span class="la">'+r[0]+'</span><small>'+r[1]+'</small><span class="hint">umdrehen</span></span><span class="face back"><span class="la">'+r[2]+'</span><span>'+r[3]+'</span><span class="lw">steckt in: '+r[4]+'</span></span></span></button>'}).join('');
+  $('irr').addEventListener('click',function(e){var b=e.target.closest('.flip');if(!b)return;var on=!b.classList.contains('on');b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+
+  /* ===== IV. Waage ===== */
+  var VG=[
+    {p:'gravior',pd:'schwerer',L:'elephantus',R:'equus',Ra:'equo',h:[.92,.48],q:'Elephantus <span class="vq">gravior</span> est <span class="vq">quam equus</span>.',a:'Elephantus <span class="vab">equo</span> <span class="vq">gravior</span> est.',de:'Der Elefant ist schwerer als das Pferd.'},
+    {p:'altior',pd:'höher',L:'mons',R:'collis',Ra:'colle',h:[.95,.38],q:'Mons <span class="vq">altior</span> est <span class="vq">quam collis</span>.',a:'Mons <span class="vab">colle</span> <span class="vq">altior</span> est.',de:'Der Berg ist höher als der Hügel.'},
+    {p:'carius',pd:'wertvoller',L:'aurum',R:'argentum',Ra:'argento',h:[.9,.56],q:'Aurum <span class="vq">carius</span> est <span class="vq">quam argentum</span>.',a:'Aurum <span class="vab">argento</span> <span class="vq">carius</span> est.',de:'Gold ist wertvoller als Silber.'},
+    {p:'levior',pd:'leichter',L:'mus',R:'elephantus',Ra:'elephanto',h:[.95,.12],q:'Mus <span class="vq">levior</span> est <span class="vq">quam elephantus</span>.',a:'Mus <span class="vab">elephanto</span> <span class="vq">levior</span> est.',de:'Die Maus ist leichter als der Elefant. Gemessen wird die Leichtigkeit, und davon hat die Maus mehr.'}
+  ];
+  var vi=0,vmode='q';
+  function bars(h){$('barL').style.transform='scaleY('+h[0]+')';$('barR').style.transform='scaleY('+h[1]+')'}
+  function vDraw(anim){var d=VG[vi],line=$('mLine'),nr=$('nameR');
+    $('vProp').innerHTML='Gemessen wird: <b>'+esc(d.p)+'</b> = '+esc(d.pd);
+    $('nameL').textContent=d.L;nr.textContent=vmode==='a'?d.Ra:d.R;nr.setAttribute('fill',vmode==='a'?'#C29A42':'#F4F6FA');
+    $('mLabel').textContent=vmode==='q'?'mit quam: beide im gleichen Fall':'ohne quam: das Verglichene im 6. Fall';
+    function put(){line.innerHTML=vmode==='q'?d.q:d.a;line.classList.remove('fade')}
+    if(anim&&!reduce){line.classList.add('fade');setTimeout(put,320)}else put();
+    $('mDe').textContent=d.de;$('vCount').textContent=(vi+1)+' / '+VG.length;
+    bars(d.h)}
+  function vMode(m){vmode=m;$('vQuam').setAttribute('aria-pressed',m==='q');$('vAbl').setAttribute('aria-pressed',m==='a');vDraw(true)}
+  $('vQuam').addEventListener('click',function(){vMode('q')});$('vAbl').addEventListener('click',function(){vMode('a')});
+  $('vNext').addEventListener('click',function(){vi=(vi+1)%VG.length;bars([.04,.04]);setTimeout(function(){vDraw(true)},reduce?0:420)});
+  vDraw(false);
+
+  /* ===== IV. Schritt für Schritt ===== */
+  var SP=[
+    {n:'Elefant',t:[['Elephantus','s'],['equo','a'],['gravior','k'],['est.','']],st:[
+      ['Los geht\'s','Lies den Satz einmal ganz durch. Noch nichts übersetzen.',[],''],
+      ['Schritt 1 · Komparativ finden','Die Endung -ior verrät ihn: gravior. gravis heißt schwer, gravior also schwerer.',['k'],'… schwerer …'],
+      ['Schritt 2 · quam suchen','Gibt es ein quam? Nein. Dann suchst du einen 6. Fall, der neben dem Komparativ steht.',['k'],'… schwerer als …?'],
+      ['Schritt 3 · 6. Fall finden','equo ist der 6. Fall von equus, das Pferd. Es steht direkt vor dem Komparativ. Das ist der Vergleichsablativ: vom Pferd aus gesehen.',['k','a'],'… schwerer als das Pferd'],
+      ['Schritt 4 · zusammensetzen','Wer ist schwerer? Elephantus, der Elefant. Komparativ + „als“ + das Ablativ-Wort im 1. Fall.',['s','k','a'],'Der Elefant ist schwerer als das Pferd.']]},
+    {n:'Cicero',t:[['Luce','a'],['sunt',''],['clariora','k'],['nobis',''],['tua','s'],['consilia','s'],['omnia.','s']],st:[
+      ['Los geht\'s','Ein Originalsatz aus Ciceros erster Rede gegen Catilina. Lies ihn einmal ganz durch.',[],''],
+      ['Schritt 1 · Komparativ finden','clariora ist Neutrum Plural von clarior. clarus heißt hell, klar. clariora also klarer.',['k'],'… klarer …'],
+      ['Schritt 2 · quam suchen','Ein quam gibt es nicht. Also suchst du einen 6. Fall neben dem Komparativ.',['k'],'… klarer als …?'],
+      ['Schritt 3 · 6. Fall finden','luce ist der 6. Fall von lux, das Licht. Cicero stellt ihn sogar an den Satzanfang, um ihn zu betonen.',['k','a'],'… klarer als das Licht'],
+      ['Schritt 4 · zusammensetzen','Was ist klarer? tua consilia omnia, alle deine Pläne. nobis heißt uns.',['s','k','a'],'Klarer als das Licht sind uns alle deine Pläne.']]}
+  ];
+  var spI=0,spS=0;
+  function spDraw(){var d=SP[spI],x=d.st[spS];
+    $('stepSent').innerHTML='<span class="la">'+d.t.map(function(t){var c='tk'+(t[1]&&x[2].indexOf(t[1])>-1?' h'+t[1]:'');return '<span class="'+c+'">'+esc(t[0])+'</span>'}).join(' ')+'</span>';
+    $('stepLabel').textContent=x[0];$('stepText').textContent=x[1];$('stepDe').textContent=x[3];pop($('stepText'));if(x[3])pop($('stepDe'));
+    $('stepDots').innerHTML=d.st.map(function(_,i){return '<i class="'+(i<=spS?'on':'')+'"></i>'}).join('');
+    $('stepNext').disabled=spS>=d.st.length-1}
+  chipGroup($('stepChips'),SP.map(function(x){return x.n}),function(i){spI=i;spS=0;spDraw()},0);
+  $('stepNext').addEventListener('click',function(){if(spS<SP[spI].st.length-1){spS++;spDraw()}});
+  $('stepReset').addEventListener('click',function(){spS=0;spDraw()});
+  spDraw();
+
+  /* ===== V./VI. Satz-Lupe ===== */
+  var LUPE={
+    app:[
+      {w:[['Augustus','bez','1. Fall'],[', '],['primus imperator','app','1. Fall'],[', Romam ornavit.']],de:'Augustus, der erste Kaiser, schmückte Rom.'},
+      {w:[['Cicero','bez','1. Fall'],[', '],['orator clarus','app','1. Fall'],[', multos libros scripsit.']],de:'Cicero, ein berühmter Redner, schrieb viele Bücher.'},
+      {w:[['Milites '],['Caesarem','bez','4. Fall'],[', '],['ducem suum','app','4. Fall'],[', amabant.']],de:'Die Soldaten liebten Caesar, ihren Feldherrn.'},
+      {w:[['Senatus '],['Ciceroni','bez','3. Fall'],[', '],['viro claro','app','3. Fall'],[', gratias egit.']],de:'Der Senat dankte Cicero, einem berühmten Mann.'}
+    ],
+    pr:[
+      {w:[['Cicero','bez','1. Fall'],[' '],['consul','pr','1. Fall'],[' coniurationem '],['detexit','vb','Prädikat'],['.']],de:'Cicero deckte als Konsul eine Verschwörung auf.'},
+      {w:[['Socrates','bez','1. Fall'],[' '],['primus','pr','1. Fall'],[' philosophiam '],['devocavit','vb','Prädikat'],[' e caelo.']],de:'Sokrates rief als Erster die Philosophie vom Himmel herab. (Cicero)'},
+      {w:[['Puer','pr','1. Fall'],[' Romam '],['venit','vb','Prädikat'],[', '],['senex','pr','1. Fall'],[' '],['rediit','vb','Prädikat'],['.']],de:'Als Bub kam er nach Rom, als Greis kehrte er zurück.'},
+      {w:[['Nemo','bez','1. Fall'],[' '],['saltat','vb','Prädikat'],[' '],['sobrius','pr','1. Fall'],['.']],de:'Niemand tanzt nüchtern. Wörtlich: als Nüchterner. (nach Cicero)'},
+      {w:[['Romani '],['captivos','bez','4. Fall'],[' '],['servos','pr','4. Fall'],[' '],['vendebant','vb','Prädikat'],['.']],de:'Die Römer verkauften Kriegsgefangene als Sklaven.'}
+    ]
+  };
+  document.querySelectorAll('[data-lupe]').forEach(function(box){
+    var set=LUPE[box.dataset.lupe],i=0,sent=box.querySelector('.sent'),de=box.querySelector('.sent-de'),lit=box.querySelector('[data-act="lit"]'),cnt=box.querySelector('[data-count]');
+    function render(){var s=set[i];sent.classList.remove('lit');lit.setAttribute('aria-pressed','false');lit.textContent='Lupe';
+      sent.innerHTML=s.w.map(function(p){return p[1]?'<span class="w '+p[1]+'">'+esc(p[0])+'<span class="cs">'+esc(p[2])+'</span></span>':esc(p[0])}).join('');
+      de.textContent=s.de;cnt.textContent=(i+1)+' / '+set.length}
+    lit.addEventListener('click',function(){var on=!sent.classList.contains('lit');sent.classList.toggle('lit',on);lit.setAttribute('aria-pressed',on);lit.textContent=on?'Lupe aus':'Lupe'});
+    box.querySelector('[data-act="next"]').addEventListener('click',function(){i=(i+1)%set.length;render()});
+    render();
+  });
+  sorter($('sorter2'),[
+    ['Cicero, orator clarus, multos libros scripsit.','a','Apposition: sagt, wer Cicero ist.'],
+    ['Cicero consul coniurationem detexit.','p','Prädikativum: In seiner Rolle als Konsul handelte er.'],
+    ['Carthago, urbs Africae, potens erat.','a','Apposition: erklärt, was Karthago ist.'],
+    ['Socrates primus philosophiam devocavit e caelo.','p','Prädikativum: als Erster.'],
+    ['Puer Romam venit.','p','Prädikativum: Als Bub kam er nach Rom.'],
+    ['Milites Caesarem, ducem suum, amabant.','a','Apposition: erklärt, wer Caesar für sie ist.']
+  ],[['a','Appos.'],['p','Präd.']],true);
+
+  /* ===== VII. Brücke ===== */
+  var BR=[
+    {s1:['Romulus ','<span class="ref">urbem</span>',' novam condidit.'],s2:['<span class="pro">Quam</span>',' Romam appellavit.'],w:'Welche nannte er Rom.',r:'<span class="now">Diese</span> nannte er Rom.'},
+    {s1:['','<span class="ref">Legati</span>',' ad Caesarem venerunt.'],s2:['<span class="pro">Quibus</span>',' Caesar respondit.'],w:'Welchen antwortete Caesar.',r:'<span class="now">Diesen</span> antwortete Caesar.'},
+    {s1:['Ciceronis ','<span class="ref">libros</span>',' legi.'],s2:['<span class="pro">Qui</span>',' mihi valde placuerunt.'],w:'Welche gefielen mir sehr.',r:'<span class="now">Diese</span> gefielen mir sehr.'},
+    {s1:['In monte ','<span class="ref">templum</span>',' erat.'],s2:['<span class="pro">Quo</span>',' in templo deos colebant.'],w:'In welchem Tempel verehrte man die Götter.',r:'In <span class="now">diesem</span> Tempel verehrte man die Götter.'},
+    {s1:['Multi ','<span class="ref">philosophi</span>',' Athenis vivebant.'],s2:['<span class="pro">Quorum</span>',' clarissimus erat Socrates.'],w:'Welcher berühmteste war Sokrates.',r:'Der berühmteste <span class="now">von ihnen</span> war Sokrates.'}
+  ];
+  var bi=0,bridge=$('bridge'),bstage=$('bstage'),bpath=$('bpath'),bBtn=$('bBtn');
+  function bRender(){var d=BR[bi];$('b1').innerHTML=d.s1.join('');$('b2').innerHTML=d.s2.join('');
+    $('bdeWrong').innerHTML='<s>'+esc(d.w)+'</s>';$('bdeRight').innerHTML=d.r;$('bCount').textContent=(bi+1)+' / '+BR.length;
+    bridge.classList.remove('lit');bstage.classList.remove('lit');bBtn.setAttribute('aria-pressed','false');bBtn.textContent='Brücke bauen';bpath.setAttribute('d','')}
+  function drawBridge(){if(!bstage.classList.contains('lit'))return;var ref=bstage.querySelector('.ref'),pro=bstage.querySelector('.pro');if(!ref||!pro)return;
+    var o=bstage.getBoundingClientRect(),a=pro.getBoundingClientRect(),b=ref.getBoundingClientRect();
+    var x0=a.left-o.left-2,y0=a.top-o.top+a.height/2,gx=6,ty=Math.max(4,b.top-o.top-9),x2=b.left-o.left+b.width/2,y2=b.top-o.top+1,r=7;
+    function f(n){return n.toFixed(1)}
+    var d='M'+f(x0)+' '+f(y0)+' L'+f(gx+r)+' '+f(y0)+' Q'+f(gx)+' '+f(y0)+' '+f(gx)+' '+f(y0-r)+' L'+f(gx)+' '+f(ty+r)+' Q'+f(gx)+' '+f(ty)+' '+f(gx+r)+' '+f(ty)+' L'+f(x2-r)+' '+f(ty)+' Q'+f(x2)+' '+f(ty)+' '+f(x2)+' '+f(Math.min(y2,ty+r));
+    bpath.setAttribute('d',d);
+    var len=bpath.getTotalLength();bpath.style.transition='none';bpath.style.strokeDasharray=len;bpath.style.strokeDashoffset=reduce?0:len;
+    if(!reduce){bpath.getBoundingClientRect();bpath.style.transition='stroke-dashoffset 1.1s cubic-bezier(.2,.7,.2,1)';bpath.style.strokeDashoffset=0}}
+  bBtn.addEventListener('click',function(){var on=!bstage.classList.contains('lit');bstage.classList.toggle('lit',on);bridge.classList.toggle('lit',on);bBtn.setAttribute('aria-pressed',on);bBtn.textContent=on?'Brücke abbauen':'Brücke bauen';if(on)drawBridge();else bpath.setAttribute('d','')});
+  $('bNext').addEventListener('click',function(){bi=(bi+1)%BR.length;bRender()});
+  window.addEventListener('resize',function(){if(bstage.classList.contains('lit')){bpath.style.transition='none';drawBridge()}});
+  bRender();
+
+  sorter($('sorter3'),[
+    ['Romulus urbem condidit. Quam Romam appellavit.','ra','Relativer Anschluss: Quam am Satzanfang, kein Fragezeichen.','Romulus gründete eine Stadt. Diese nannte er Rom.'],
+    ['Quam urbem Romulus condidit?','fr','Frage: Fragezeichen am Ende.','Welche Stadt gründete Romulus?'],
+    ['Urbs, quam Romulus condidit, Roma appellatur.','rs','Relativsatz: quam steht mitten im Satz zwischen Beistrichen.','Die Stadt, die Romulus gründete, heißt Rom.'],
+    ['Legati venerunt. Quibus Caesar respondit.','ra','Relativer Anschluss: Quibus am Satzanfang.','Gesandte kamen. Diesen antwortete Caesar.'],
+    ['Quae causa belli erat?','fr','Frage: Fragezeichen am Ende.','Was war der Grund für den Krieg?'],
+    ['Pueri, qui in horto ludunt, laeti sunt.','rs','Relativsatz: qui steht im Satz, zwischen Beistrichen.','Die Buben, die im Garten spielen, sind fröhlich.']
+  ],[['ra','Anschluss'],['fr','Frage'],['rs','Relativsatz']],true);
+
+  /* ===== Selbsttests ===== */
+  var QZ={
+    adj:[
+      ['Welche Vokabelangabe gehört zu einem Adjektiv der 3. Deklination?',['bonus, -a, -um','celer, celeris, celere','miser, -era, -erum'],1,'Der 2. Fall auf -is verrät es.'],
+      ['„fortibus“ kann sein:',['nur 3. Fall Plural','3. oder 6. Fall Plural','2. Fall Plural'],1,'3. und 6. Fall Plural sehen gleich aus.'],
+      ['„forti“ kann sein:',['nur 3. Fall Singular','3. oder 6. Fall Singular','1. Fall Plural'],1,'Bei diesen Adjektiven hat auch der 6. Fall Singular -i.'],
+      ['„acre“ ist:',['6. Fall Singular','1. oder 4. Fall Singular Neutrum','5. Fall männlich'],1,'-e ist hier immer Neutrum Singular.'],
+      ['Welche Form passt zu „servorum“?',['fortium','fortis','fortibus'],0,'2. Fall Plural: fortium.'],
+      ['Welche Form passt zu „dona“ (4. Fall Plural)?',['fortes','fortia','forte'],1,'Neutrum Plural: -ia.']
+    ],
+    komp:[
+      ['Wie lautet der Komparativ von „longus“?',['longior, longius','longissimus','longus magis'],0,'Stamm long- plus -ior bzw. -ius.'],
+      ['Woher nimmst du den Stamm?',['vom 1. Fall','vom 2. Fall ohne Endung','vom 4. Fall'],1,'pulcher, pulchri: Stamm pulchr-.'],
+      ['„fortius“ ist ...',['1. Fall männlich der o-Deklination','1. oder 4. Fall Neutrum Singular des Komparativs','6. Fall Singular'],1,'-ius ist das Neutrum des Komparativs.'],
+      ['6. Fall Singular von „fortior“?',['fortiori','fortiore','fortioris'],1,'Komparativ geht wie rex: -e im 6. Fall.'],
+      ['2. Fall Plural von „fortior“?',['fortiorium','fortiorum','fortioribus'],1,'Wie regum: -um, nicht -ium.'],
+      ['Nach welcher Deklination geht der Komparativ von „longus“?',['a/o-Deklination wie longus','3. Deklination'],1,'Jeder Komparativ geht nach der 3. Deklination, egal wie das Grundwort dekliniert wird.'],
+      ['„Via longior est.“ (kein Vergleich im Text)',['Der Weg ist ziemlich lang.','Der Weg ist am längsten.','Der Weg ist lang genug.'],0,'Ohne Vergleich meist ziemlich oder allzu.']
+    ],
+    sup:[
+      ['Superlativ von „pulcher“?',['pulchrissimus','pulcherrimus','pulchillimus'],1,'Auf -er: -errimus.'],
+      ['Superlativ von „facilis“?',['facilissimus','facillimus','facilerrimus'],1,'Einer der sechs auf -ilis.'],
+      ['Superlativ von „utilis“?',['utillimus','utilissimus','utilerrimus'],1,'Falle: utilis gehört nicht zu den sechs.'],
+      ['Nach welcher Deklination geht „fortissimus“?',['a/o-Deklination','3. Deklination'],0,'Alle Superlative gehen wie magnus, -a, -um.'],
+      ['„vir fortissimus“ ohne Vergleichsgruppe:',['ein sehr tapferer Mann','der tapferere Mann','ein ziemlich tapferer Mann'],0,'Ohne Vergleichsgruppe: sehr.'],
+      ['Superlativ von „magnus“?',['magnissimus','maximus','maior'],1,'Unregelmäßig, wie in Maximum.']
+    ],
+    vgl:[
+      ['„Nihil est virtute amabilius.“ (Cicero)',['Nichts ist liebenswerter als die Tugend.','Nichts ist mit Tugend liebenswert.','Die Tugend ist nichts Liebenswertes.'],0,'virtute ist der Vergleichsablativ: als die Tugend.'],
+      ['Was bedeutet dasselbe wie „Aurum carius est quam argentum“?',['Aurum argento carius est.','Aurum argenti carius est.','Auro argentum carius est.'],0,'argento im 6. Fall ersetzt quam argentum.'],
+      ['Woran erkennst du den Vergleichsablativ?',['6. Fall neben einem Komparativ, ohne quam','6. Fall mit einer Präposition','6. Fall am Satzende'],0,'Der Komparativ ist das Signal.'],
+      ['Warum vergleicht ausgerechnet der 6. Fall?',['Er bedeutet oft „von ... aus“: vom Pferd aus gesehen','Weil er immer am Satzende steht','Weil er wie der 1. Fall aussieht'],0,'Im Kopf „vom ... aus gesehen“, auf dem Papier „als“.'],
+      ['„Milites quam fortissimi esse debent.“',['Soldaten sollen möglichst tapfer sein.','Soldaten sollen tapferer als ... sein.','Soldaten sollen sehr tapfer als sein.'],0,'quam + Superlativ = möglichst.']
+    ],
+    app:[
+      ['Eine Apposition steht ...',['im selben Fall wie ihr Bezugswort','immer im 1. Fall','immer im 6. Fall'],0,'Sie übernimmt den Fall ihres Bezugsworts.'],
+      ['„Senatus Ciceroni, viro claro, gratias egit.“ Wie übersetzt du „viro claro“?',['ein berühmter Mann','einem berühmten Mann','mit einem berühmten Mann'],1,'Ciceroni steht im 3. Fall, also auch der Beisatz.'],
+      ['Was ist in „Carthago, urbs Africae, potens erat“ die Apposition?',['Carthago','urbs Africae','potens'],1,'urbs Africae erklärt, was Karthago ist.']
+    ],
+    pr:[
+      ['Mit welchem Wort übersetzt du ein Prädikativum fast immer?',['als','weil','und'],0,'„als“ ist das Zauberwort.'],
+      ['„Socrates primus philosophiam devocavit e caelo.“',['Sokrates, der Erste, rief die Philosophie vom Himmel.','Sokrates rief als Erster die Philosophie vom Himmel herab.','Sokrates rief zuerst den Himmel an.'],1,'primus ist hier ein Prädikativum.'],
+      ['Ein Prädikativum gehört zu einem Nomen und zugleich ...',['zum Prädikat','zum Genitiv','zur Präposition'],0,'Daher der Name: Prädikativum.'],
+      ['„Romani captivos servos vendebant.“ Was ist „servos“?',['Apposition','Prädikativum','Objekt'],1,'Die Gefangenen wurden als Sklaven verkauft.']
+    ],
+    ra:[
+      ['„Qui“ am Satzanfang ohne Fragezeichen übersetzt du meist mit ...',['dieser','welcher','wer'],0,'Relativer Anschluss: dieser, diese, dieses.'],
+      ['„Romulus urbem condidit. Quam Romam appellavit.“ Worauf bezieht sich „Quam“?',['Romulus','urbem','Romam'],1,'Weiblich Singular wie urbem.'],
+      ['Woher bekommt das Pronomen seinen Fall?',['vom Bezugswort','aus seinem eigenen Satz'],1,'Geschlecht und Zahl vom Bezugswort, Fall aus dem eigenen Satz.'],
+      ['„Quae causa belli erat?“ ist ...',['ein relativer Anschluss','eine Frage','ein Relativsatz'],1,'Das Fragezeichen entscheidet.']
+    ]
+  };
+  document.querySelectorAll('[data-quiz]').forEach(function(form){
+    var k=form.dataset.quiz,Q=QZ[k],done={},sc=document.querySelector('[data-score="'+k+'"]');
+    form.innerHTML=Q.map(function(q,i){return '<fieldset class="q"><legend><b>'+(i+1)+'</b>'+esc(q[0])+'</legend>'+q[1].map(function(a,j){
+      return '<label><input type="radio" id="'+k+'-'+i+'-'+j+'" name="'+k+'-'+i+'" value="'+j+'"><span>'+esc(a)+'</span></label>'}).join('')+'<p class="fb"></p></fieldset>'}).join('');
+    function upd(){var n=0;for(var x in done)if(done[x])n++;sc.textContent=n+' von '+Q.length+' richtig'}
+    form.addEventListener('change',function(e){var i=+e.target.name.split('-')[1],q=Q[i],v=+e.target.value,fs=e.target.closest('fieldset');
+      fs.querySelectorAll('input').forEach(function(inp){var l=inp.parentNode;l.classList.remove('right','wrong');if(+inp.value===q[2])l.classList.add('right');else if(+inp.value===v)l.classList.add('wrong')});
+      fs.querySelector('.fb').innerHTML=(v===q[2]?'<b>&#10003; Richtig.</b> ':'<b>&#10007; Leider nicht.</b> ')+esc(q[3]);done[i]=v===q[2];upd()});
+    upd();
+  });
+
+  /* Start */
+  var h=(location.hash||'').slice(1);
+  show(T.some(function(t){return t[0]===h})?h:'adjektive',false);
+})();
+</script>
